@@ -7,7 +7,9 @@
 		"grunt-contrib-qunit": ">=3.1.0",
 		"grunt-strip-code": ">=1.0.6",
 		"grunt-contrib-watch": ">=1.1.0",
-		"grunt-contrib-copy": ">=1.0.0"
+		"grunt-contrib-copy": ">=1.0.0",
+		"grunt-contrib-uglify": ">=4.0.1",
+		"grunt-banner": ">=0.6.0"
 	},
 	"repository": {
 		"type": "git",

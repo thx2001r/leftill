@@ -8,7 +8,6 @@ var ltRecurrences = (function() {
 			// Parse the config
 			var Matches = [];
 			for (var i = 0; i < config.length; i++) {
-				// return config[i];
 				Matches.push(Weekly(new Date(rangeStart), new Date(rangeEnd), config[i]));
 			}
 			return(Matches);

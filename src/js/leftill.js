@@ -3,42 +3,37 @@
 +-------------------------------------------------------------------------*/
 
 var ltRecurrences = (function() {
+	// Parse each config item for matches within a date range
 	function Matches(rangeStart, rangeEnd, config) {
 		if (new Date(rangeStart) > 0 && new Date(rangeEnd) > 0 && isObject(config) > 0) { // Required parameters
-			// Parse the config
-			var Matches = [];
+			var configMatches = [];
 			for (var i = 0; i < config.length; i++) {
-				Matches.push(Weekly(new Date(rangeStart), new Date(rangeEnd), config[i]));
+				configMatches.push(Weekly(new Date(rangeStart), new Date(rangeEnd), config[i]));
 			}
-			return(Matches);
+			return(configMatches);
 		}
 		return(false);
 	}
 
-	// (private) - Parse weekly recurrences for matches within a range
+	// (private) - Parse weekly recurrences for matches within a date range
 	function Weekly(rangeStart, rangeEnd, config) {
-		if (new Date(config.recurrenceStart) > 0) { // Required parameters can be parsed as a date
+		if (new Date(config.recurrenceStart) > 0) { // Required parameter can be parsed as a date
 			var recurrenceStart = new Date(config.recurrenceStart),
 				recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5,
-				recurrencesUntilRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds,
-				recurrencesUntilRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds;
-			if (
-				recurrencesUntilRangeEnd >= 0 // End of range must be on or after the recurrence start
-				&& (
-					recurrencesUntilRangeStart == Math.floor(recurrencesUntilRangeStart) // rangeStart is an exact recurrence
-					|| recurrencesUntilRangeEnd == Math.floor(recurrencesUntilRangeEnd) // -OR- rangeEnd is an exact recurrence
-					|| Math.floor(recurrencesUntilRangeEnd) - Math.floor(recurrencesUntilRangeStart) > 0 // -OR- a future recurrence is spanned
-					|| recurrencesUntilRangeStart < 0 // -OR- range spans the recurrenceStart
-				)
-			) {
+				recurrencesToRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds,
+				recurrencesToRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds,
+				rangeStartMatch = recurrencesToRangeStart === Math.floor(recurrencesToRangeStart),
+				rangeEndMatch = recurrencesToRangeEnd == Math.floor(recurrencesToRangeEnd),
+				spanningMatch = (Math.floor(recurrencesToRangeEnd) - Math.floor(recurrencesToRangeStart) > 0);
+			if (recurrencesToRangeEnd >= 0 && (rangeStartMatch || rangeEndMatch || spanningMatch || recurrencesToRangeStart < 0)) {
 				var recurrenceMatches = [];
 				for (
-					var i = recurrencesUntilRangeStart == Math.floor(recurrencesUntilRangeStart) ? recurrencesUntilRangeStart : Math.ceil(recurrencesUntilRangeStart);
-					i <= (recurrencesUntilRangeEnd == Math.floor(recurrencesUntilRangeEnd) ? recurrencesUntilRangeEnd : Math.floor(recurrencesUntilRangeEnd));
+					var i = rangeStartMatch ? recurrencesToRangeStart : Math.ceil(recurrencesToRangeStart);
+					i <= (rangeEndMatch ? recurrencesToRangeEnd : Math.floor(recurrencesToRangeEnd));
 					i++
 				) {
 					if (i >= 0) {
-						recurrenceMatches.push(new Date(recurrenceStart.getTime() + (i * recurrenceMilliseconds))); // Push matches to array
+						recurrenceMatches.push(new Date(recurrenceStart.getTime() + (i * recurrenceMilliseconds))); // Push match to array
 					}
 				}
 				return(recurrenceMatches); // Return an array of date objects

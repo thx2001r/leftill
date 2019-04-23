@@ -1,11 +1,13 @@
 var testConfig = {
 	Monthly: {
+		id: 1,
 		amount: 3000.01,
 		description: "Paycheck",
 		type: "Income",
 		recurrence: "Monthly",
 		dayOfMonth: 1
 	}, BiWeekly: {
+		id: 2,
 		amount: 500,
 		description: "Paycheck",
 		type: "Income",
@@ -14,6 +16,7 @@ var testConfig = {
 		recurrenceStart: "04/04/2019",
 		endDate: null
 	}, BiWeeklyBroken: {
+		id: 2,
 		amount: 500,
 		description: "Paycheck",
 		type: "Income",
@@ -23,6 +26,7 @@ var testConfig = {
 		endDate: null
 	}, RecurrenceParser: [
 		{
+			id: 1,
 			amount: 500,
 			description: "Paycheck",
 			type: "Income",

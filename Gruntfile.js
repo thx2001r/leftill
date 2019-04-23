@@ -1,13 +1,12 @@
-var pkgJson = require('./package.json');
-
 module.exports = function( grunt ) {
 	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
 		banner: [
 			'/*-------------------------------------------------------------------------+',
 			'|   _       __ _   _ _ _                                                   |',
 			'|  | | ___ / _| |_(_) | |                                                  |',
 			'|  | |/ _ \\ |_| __| | | |                                                  |',
-			'|  | |  __/  _| |_| | | |    v' + pkgJson.version + '                                        |',
+			'|  | |  __/  _| |_| | | |    v<%= pkg.version %>                                        |',
 			'|  |_|\\___|_|  \\__|_|_|_|    https://github.com/thx2001r/leftill           |',
 			'|                                                                          |',
 			'+--------------------------------------------------------------------------+',
@@ -21,7 +20,7 @@ module.exports = function( grunt ) {
 		},
 		watch: {
 			files: ['tests/*.js', 'src/js/*.js'],
-			tasks: ['qunit']
+			tasks: ['jshint', 'qunit']
 		},
 		copy: {
 			main: {
@@ -59,6 +58,10 @@ module.exports = function( grunt ) {
 				]
 			}
 		},
+		jshint: {
+			all: ['src/js/*.js']
+		},
+		clean: ['dist'],
 		concat: {
 			js: {
 				files: {
@@ -68,7 +71,7 @@ module.exports = function( grunt ) {
 			}
 		},
 		usebanner: {
-			taskName: {
+			all: {
 				options: {
 					position: 'top',
 					banner: '<%= banner %>\n',
@@ -85,10 +88,12 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-strip-code');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-banner');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 
-	grunt.registerTask('default', ['qunit']);
-	grunt.registerTask('deploy', ['qunit', 'copy', 'strip_code', 'uglify', 'concat', 'usebanner']);
+	grunt.registerTask('default', ['jshint', 'qunit']);
+	grunt.registerTask('deploy', ['jshint', 'qunit', 'clean', 'copy', 'strip_code', 'uglify', 'concat', 'usebanner']);
 };

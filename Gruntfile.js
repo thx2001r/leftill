@@ -26,9 +26,9 @@ module.exports = function( grunt ) {
 		copy: {
 			main: {
 				expand: true,
-				cwd: 'src',
+				cwd: 'src/js',
 				src: '**',
-				dest: 'dist/'
+				dest: 'dist/js'
 			},
 		},
 		strip_code: {
@@ -46,9 +46,6 @@ module.exports = function( grunt ) {
 		},
 		uglify: {
 			my_target: {
-				options: {
-					sourceMap: true,
-				},
 				files: [
 					{
 						expand: true,
@@ -60,6 +57,14 @@ module.exports = function( grunt ) {
 						}
 					}
 				]
+			}
+		},
+		concat: {
+			js: {
+				files: {
+					'dist/js/leftill.js': ['dist/js/leftill.js', 'src/3rdParty/js/3rdParty.min.js'],
+					'dist/js/leftill.min.js': ['dist/js/leftill.min.js', 'src/3rdParty/js/3rdParty.min.js']
+				}
 			}
 		},
 		usebanner: {
@@ -82,7 +87,8 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks('grunt-strip-code');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-banner');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	grunt.registerTask('default', ['qunit']);
-	grunt.registerTask('deploy', ['qunit', 'copy', 'strip_code', 'uglify', 'usebanner']);
+	grunt.registerTask('deploy', ['qunit', 'copy', 'strip_code', 'uglify', 'concat', 'usebanner']);
 };

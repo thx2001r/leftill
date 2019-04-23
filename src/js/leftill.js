@@ -3,13 +3,26 @@
 +-------------------------------------------------------------------------*/
 
 var ltRecurrences = (function() {
+	function Matches(rangeStart, rangeEnd, config) {
+		if (new Date(rangeStart) > 0 && new Date(rangeEnd) > 0 && isObject(config) > 0) { // Required parameters
+			// Parse the config
+			var Matches = [];
+			for (var i = 0; i < config.length; i++) {
+				// return config[i];
+				Matches.push(Weekly(new Date(rangeStart), new Date(rangeEnd), config[i]));
+			}
+			return(Matches);
+		}
+		return(false);
+	}
+
 	// (private) - Parse weekly recurrences for matches within a range
 	function Weekly(rangeStart, rangeEnd, config) {
-		if (new Date(rangeStart) > 0 && new Date(rangeEnd) > 0 && new Date(config.recurrenceStart) > 0) { // Required parameters can be parsed as a date
+		if (new Date(config.recurrenceStart) > 0) { // Required parameters can be parsed as a date
 			var recurrenceStart = new Date(config.recurrenceStart),
 				recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5,
-				recurrencesUntilRangeStart = (new Date(rangeStart) - recurrenceStart) / recurrenceMilliseconds,
-				recurrencesUntilRangeEnd = (new Date(rangeEnd) - recurrenceStart) / recurrenceMilliseconds;
+				recurrencesUntilRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds,
+				recurrencesUntilRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds;
 			if (
 				recurrencesUntilRangeEnd >= 0 // End of range must be on or after the recurrence start
 				&& (
@@ -37,8 +50,8 @@ var ltRecurrences = (function() {
 
 	return {
 		/* BEGIN: Test-Only Code to Strip During Deployment */
-		weekly_TEST_ONLY: Weekly
+		weekly_TEST_ONLY: Weekly,
 		/* END: Test-Only Code to Strip During Deployment */
+		matches: Matches
 	};
-
 })();

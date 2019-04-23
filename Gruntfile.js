@@ -35,8 +35,8 @@ module.exports = function( grunt ) {
 			options: {
 				blocks: [
 					{
-						start_block: "/* test-code */",
-						end_block: "/* end-test-code */"
+						start_block: "/* BEGIN: Test-Only Code to Strip During Deployment */",
+						end_block: "/* END: Test-Only Code to Strip During Deployment */"
 					}
 				]
 			},

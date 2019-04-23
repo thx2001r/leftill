@@ -1,5 +1,4 @@
 QUnit.test('Bi-weekly Income Recurrence', function( assert ) {
-	assert.equal(ltRecurrences.echo(), 'hello world', 'Test sample public function');
 	assert.equal(ltRecurrences.weekly_TEST_ONLY(), false, 'Function called with no parameters');
 	assert.equal(ltRecurrences.weekly_TEST_ONLY('not a date', false, 42), false, 'Invalid data types on parameters');
 	assert.equal(ltRecurrences.weekly_TEST_ONLY('04/05/2019', '04/03/2019', testConfig.BiWeekly), false, 'End date before start date');

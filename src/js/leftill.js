@@ -3,12 +3,6 @@
 +-------------------------------------------------------------------------*/
 
 var ltRecurrences = (function() {
-
-	// Sample public function
-	function Echo() {
-		return('hello world');
-	}
-
 	// (private) - Parse weekly recurrences for matches within a range
 	function Weekly(rangeStart, rangeEnd, config) {
 		if (new Date(rangeStart) > 0 && new Date(rangeEnd) > 0 && new Date(config.recurrenceStart) > 0) { // Required parameters can be parsed as a date
@@ -42,10 +36,9 @@ var ltRecurrences = (function() {
 	}
 
 	return {
-		/* test-code */
-		weekly_TEST_ONLY: Weekly,
-		/* end-test-code */
-		echo: Echo // Public function
+		/* BEGIN: Test-Only Code to Strip During Deployment */
+		weekly_TEST_ONLY: Weekly
+		/* END: Test-Only Code to Strip During Deployment */
 	};
 
 })();

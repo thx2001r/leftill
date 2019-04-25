@@ -6,6 +6,7 @@ QUnit.test('Bi-weekly Income Recurrence', function( assert ) {
 	assert.equal(ltRecurrences.weekly_TEST_ONLY(new Date('04/05/2019'), new Date('04/17/2019'), testConfig.BiWeekly), false, 'Range contains no recurrence');
 	assert.deepEqual(ltRecurrences.weekly_TEST_ONLY(new Date('03/21/2019'), new Date('04/04/2019'), testConfig.BiWeekly), [new Date('04/04/2019')], 'Range ends on start date');
 	assert.deepEqual(ltRecurrences.weekly_TEST_ONLY(new Date('03/21/2019'), new Date('04/05/2019'), testConfig.BiWeekly), [new Date('04/04/2019')], 'Range spans start date');
+	assert.deepEqual(ltRecurrences.weekly_TEST_ONLY(new Date('04/03/2019'), new Date('04/05/2019'), testConfig.BiWeekly), [new Date('04/04/2019')], 'Range closely spans start date');
 	assert.deepEqual(ltRecurrences.weekly_TEST_ONLY(new Date('04/04/2019'), new Date('04/05/2019'), testConfig.BiWeekly), [new Date('04/04/2019')], 'Range begins on start date');
 	assert.deepEqual(ltRecurrences.weekly_TEST_ONLY(new Date('04/05/2019'), new Date('04/18/2019'), testConfig.BiWeekly), [new Date('04/18/2019')], 'Range ends on first recurrence');
 	assert.deepEqual(ltRecurrences.weekly_TEST_ONLY(new Date('04/05/2019'), new Date('04/19/2019'), testConfig.BiWeekly), [new Date('04/18/2019')], 'Range spans first recurrence');

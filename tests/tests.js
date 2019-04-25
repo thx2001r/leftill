@@ -15,5 +15,5 @@ QUnit.test('Bi-weekly Income Recurrence', function( assert ) {
 
 QUnit.test('Recurrence Matches in Configured Range', function ( assert) {
 	assert.equal(ltRecurrences.matches(), false, 'Function called with no parameters');
-	assert.deepEqual(ltRecurrences.matches('03/21/2019', '04/04/2019', testConfig.RecurrenceParser), [[new Date('04/04/2019')]], 'Range ends on start date');
+	assert.deepEqual(ltRecurrences.matches('03/21/2019', '04/04/2019', testConfig.RecurrenceParser), {1:[new Date('04/04/2019')]}, 'Range ends on start date');
 });

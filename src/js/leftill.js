@@ -5,12 +5,16 @@
 var ltRecurrences = (function() {
 	// Parse each config item for matches within a date range
 	function Matches(rangeStart, rangeEnd, config) {
-		if (new Date(rangeStart) > 0 && new Date(rangeEnd) > 0 && isObject(config) > 0) { // Required parameters
-			var configMatches = [];
-			for (var i = 0; i < config.length; i++) {
-				configMatches.push(Weekly(new Date(rangeStart), new Date(rangeEnd), config[i]));
+		if (new Date(rangeStart) > 0 && new Date(rangeEnd) > 0 && isObject(config)) { // Required parameters
+			var configMatches = {},
+				keys = Object.keys(config);
+			for (var i = 0; i < keys.length; i++) {
+				var configMatch = Weekly(new Date(rangeStart), new Date(rangeEnd), config[keys[i]]);
+				if (configMatch) {
+					configMatches[keys[i]] = configMatch; // Push match to object
+				}
 			}
-			return(configMatches);
+			return(configMatches); // Return object for matching configs with date arrays
 		}
 		return(false);
 	}

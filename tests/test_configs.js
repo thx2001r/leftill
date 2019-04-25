@@ -24,9 +24,8 @@ var testConfig = {
 		weeksRecurrence: "a",
 		recurrenceStart: "Something Broken!",
 		endDate: null
-	}, RecurrenceParser: [
-		{
-			id: 1,
+	}, RecurrenceParser: {
+		1: {
 			amount: 500,
 			description: "Paycheck",
 			type: "Income",
@@ -35,5 +34,5 @@ var testConfig = {
 			recurrenceStart: "04/04/2019",
 			endDate: null
 		}
-	]
+	}
 };

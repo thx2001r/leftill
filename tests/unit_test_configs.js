@@ -1,5 +1,17 @@
 var testConfig = {
-	Monthly: {
+	Once: {
+		amount: 100,
+		description: "Pre-school deposit",
+		type: "Expense",
+		recurrence: "Once",
+		recurrenceStart: "04/04/2019"
+	}, OnceBroken: {
+		amount: 100,
+		description: "Pre-school deposit",
+		type: "Expense",
+		recurrence: "Once",
+		recurrenceStart: "Something Broken!"
+	}, Monthly: {
 		amount: 3000.01,
 		description: "Paycheck",
 		type: "Income",
@@ -30,6 +42,12 @@ var testConfig = {
 			weeksRecurrence: 2,
 			recurrenceStart: "04/04/2019",
 			endDate: null
+		}, 2: {
+			amount: 100,
+			description: "Pre-school deposit",
+			type: "Expense",
+			recurrence: "Once",
+			recurrenceStart: "04/04/2019"
 		}
 	}
 };

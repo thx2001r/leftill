@@ -5,7 +5,7 @@
 var ltRecurrences = (function () {
 
 	// Parse each config item for matches within a date range
-	function Matches(rangeStart, rangeEnd, config) {
+	function ConfigMatches(rangeStart, rangeEnd, config) {
 		rangeStart = new Date(rangeStart);
 		rangeEnd = new Date(rangeEnd);
 
@@ -15,18 +15,43 @@ var ltRecurrences = (function () {
 
 			// Loop through possible matching configurations
 			for (var i = 0; i < keys.length; i++) {
-				var configMatch = Weekly(rangeStart, rangeEnd, config[keys[i]]);
 
-				// Add matching dates for the configuration 
-				if (configMatch) configMatches[keys[i]] = configMatch;
+				// Parse config if required parameters present
+				if (new Date(config[keys[i]].recurrenceStart) > 0) {
+					var configMatch = [];
+
+					// Route configuration to appropriate configuration parser
+					switch (config[keys[i]].recurrence) {
+						case "Once":
+							configMatch = OnceParser(rangeStart, rangeEnd, config[keys[i]]);
+							break;
+						case "Weekly":
+							configMatch = WeeklyParser(rangeStart, rangeEnd, config[keys[i]]);
+							break;
+					}
+
+					// Add any matching dates for the configuration 
+					if (configMatch.length > 0) configMatches[keys[i]] = configMatch;
+				}
 			}
 			return Object.keys(configMatches).length > 0 ? configMatches : false;
 		}
 		return false;
 	}
 
+	// (private) - Parse a one-time date for matches within a date range
+	function OnceParser(rangeStart, rangeEnd, config) {
+		var oneTimeDate = new Date(config.recurrenceStart);
+
+		if (rangeStart <= oneTimeDate && rangeEnd >= oneTimeDate) {
+			// Add matching recurrence
+			return [oneTimeDate];
+		}
+		return false;
+	}
+
 	// (private) - Parse weekly recurrences for matches within a date range
-	function Weekly(rangeStart, rangeEnd, config) {
+	function WeeklyParser(rangeStart, rangeEnd, config) {
 		if (new Date(config.recurrenceStart) > 0) {
 			var recurrenceStart = new Date(config.recurrenceStart),
 				recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5,
@@ -45,7 +70,7 @@ var ltRecurrences = (function () {
 					i <= (rangeEndMatch ? recurrencesToRangeEnd : Math.floor(recurrencesToRangeEnd));
 					i++
 				) {
-					// Add matching recurrences
+					// Add any matching recurrences
 					recurrenceMatches.push(new Date(recurrenceStart.getTime() + (i * recurrenceMilliseconds)));
 				}
 				return recurrenceMatches;
@@ -56,8 +81,9 @@ var ltRecurrences = (function () {
 
 	return {
 		/* BEGIN: Test-Only Code to Strip During Deployment */
-		weekly_TEST_ONLY: Weekly,
+		once_TEST_ONLY: OnceParser,
+		weekly_TEST_ONLY: WeeklyParser,
 		/* END: Test-Only Code to Strip During Deployment */
-		matches: Matches
+		matches: ConfigMatches
 	};
 })();

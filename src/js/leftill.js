@@ -19,7 +19,7 @@ var ltRecurrences = (function() {
 				// Add matching dates for the configuration 
 				if (configMatch) configMatches[keys[i]] = configMatch;
 			}
-			if (configMatches) return configMatches;
+			return Object.keys(configMatches).length > 0 ? configMatches : false;
 		}
 		return false;
 	}

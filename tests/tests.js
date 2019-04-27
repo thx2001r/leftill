@@ -1,6 +1,4 @@
 QUnit.test('Bi-weekly Income Recurrence', function( assert ) {
-	assert.equal(ltRecurrences.weekly_TEST_ONLY('not a date', false, 42), false, 'Invalid data types on parameters');
-	assert.equal(ltRecurrences.weekly_TEST_ONLY(new Date('04/05/2019'), new Date('04/03/2019'), testConfig.BiWeekly), false, 'End date before start date');
 	assert.equal(ltRecurrences.weekly_TEST_ONLY(new Date('03/21/2019'), new Date('04/04/2019'), testConfig.BiWeeklyBroken), false, 'Invalid configuration');
 	assert.equal(ltRecurrences.weekly_TEST_ONLY(new Date('03/21/2019'), new Date('04/03/2019'), testConfig.BiWeekly), false, 'Range before start date');
 	assert.equal(ltRecurrences.weekly_TEST_ONLY(new Date('04/05/2019'), new Date('04/17/2019'), testConfig.BiWeekly), false, 'Range contains no recurrence');
@@ -16,5 +14,8 @@ QUnit.test('Bi-weekly Income Recurrence', function( assert ) {
 
 QUnit.test('Recurrence Matches in Configured Range', function ( assert) {
 	assert.equal(ltRecurrences.matches(), false, 'Function called with no parameters');
+	assert.equal(ltRecurrences.matches('not a date', false, 42), false, 'Invalid data types on parameters');
+	assert.equal(ltRecurrences.matches('04/05/2019', '04/03/2019', testConfig.RecurrenceParser), false, 'End date before start date');
+	assert.deepEqual(ltRecurrences.matches('04/04/2019', '04/04/2019', testConfig.RecurrenceParser), {1:[new Date('04/04/2019')]}, 'Range begins and ends on start date');
 	assert.deepEqual(ltRecurrences.matches('03/21/2019', '04/04/2019', testConfig.RecurrenceParser), {1:[new Date('04/04/2019')]}, 'Range ends on start date');
 });

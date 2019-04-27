@@ -2,7 +2,8 @@
 |  Recurrence functions                                                    |
 +-------------------------------------------------------------------------*/
 
-var ltRecurrences = (function() {
+var ltRecurrences = (function () {
+
 	// Parse each config item for matches within a date range
 	function Matches(rangeStart, rangeEnd, config) {
 		rangeStart = new Date(rangeStart);

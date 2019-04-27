@@ -1,4 +1,4 @@
-module.exports = function( grunt ) {
+module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		banner: [
@@ -16,11 +16,12 @@ module.exports = function( grunt ) {
 		].join('\n'),
 
 		qunit: {
-			all: ['tests/*.html']
+			all: ['tests/*.html'],
+			unit: ['tests/unit_tests.html']
 		},
 		watch: {
-			files: ['tests/*.js', 'src/js/*.js'],
-			tasks: ['jshint', 'qunit']
+			files: ['tests/unit_tests.js', 'src/js/*.js'],
+			tasks: ['jshint', 'qunit:unit']
 		},
 		copy: {
 			main: {
@@ -94,6 +95,6 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks('grunt-banner');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 
-	grunt.registerTask('default', ['jshint', 'qunit']);
-	grunt.registerTask('deploy', ['jshint', 'qunit', 'clean', 'copy', 'strip_code', 'uglify', 'concat', 'usebanner']);
+	grunt.registerTask('default', ['jshint', 'qunit:all']);
+	grunt.registerTask('deploy', ['jshint', 'qunit:all', 'clean', 'copy', 'strip_code', 'uglify', 'concat', 'usebanner']);
 };

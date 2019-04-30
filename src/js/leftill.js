@@ -28,6 +28,9 @@ var ltRecurrences = (function () {
 						case "Yearly":
 							configMatch = YearlyParser(rangeStart, rangeEnd, config[keys[i]]);
 							break;
+						case "Monthly":
+							configMatch = MonthlyParser(rangeStart, rangeEnd, config[keys[i]]);
+							break;
 						case "Weekly":
 							configMatch = WeeklyParser(rangeStart, rangeEnd, config[keys[i]]);
 							break;
@@ -81,6 +84,40 @@ var ltRecurrences = (function () {
 		return false;
 	}
 
+	// (private) - Parse monthly recurrences for matches within a date range
+	function MonthlyParser(rangeStart, rangeEnd, config) {
+		var recurrenceStart = new Date(config.recurrenceStart);
+
+		if (rangeEnd >= recurrenceStart) {
+			var recurrenceMatches = [],
+				recurrenceDate = recurrenceStart.getDate(),
+				rangeBeforeStart = rangeStart <= recurrenceStart;
+
+			// Loop through possible matches in range -- Feb 29th should be handled upstream in configuration
+			for (
+				var i = rangeBeforeStart ? recurrenceStart.getMonth() + 1 : rangeStart.getMonth() + 2,
+					candidateYear = rangeBeforeStart ? recurrenceStart.getFullYear() : rangeStart.getFullYear(); ;
+				i++
+			) {
+				if (i > 12) {
+					// Roll over candidate month to January of the next year
+					i = 1;
+					candidateYear++;
+				}
+				var recurrenceCandidate = new Date(i + "/" + recurrenceDate + "/" + candidateYear);
+
+				if (rangeEnd >= recurrenceCandidate) {
+					// Add any matching recurrences
+					recurrenceMatches.push(recurrenceCandidate);
+				} else {
+					break;
+				}
+			}
+			return recurrenceMatches;
+		}
+		return false;
+	}
+
 	// (private) - Parse weekly recurrences for matches within a date range
 	function WeeklyParser(rangeStart, rangeEnd, config) {
 		var recurrenceStart = new Date(config.recurrenceStart),
@@ -112,6 +149,7 @@ var ltRecurrences = (function () {
 		/* BEGIN: Test-Only Code to Strip During Deployment */
 		once_TEST_ONLY: OnceParser,
 		yearly_TEST_ONLY: YearlyParser,
+		monthly_TEST_ONLY: MonthlyParser,
 		weekly_TEST_ONLY: WeeklyParser,
 		/* END: Test-Only Code to Strip During Deployment */
 		matches: ConfigMatches

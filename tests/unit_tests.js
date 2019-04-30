@@ -21,6 +21,18 @@ QUnit.test('Yearly Recurrence', function (assert) {
 	assert.deepEqual(ltRecurrences.yearly_TEST_ONLY(new Date('01/01/2018'), new Date('12/31/2020'), testConfig.Yearly), [new Date('03/26/2019'), new Date('03/26/2020')], 'Range spans start date & first recurrence');
 });
 
+QUnit.test('Monthly Recurrence', function (assert) {
+	assert.equal(ltRecurrences.monthly_TEST_ONLY(new Date('03/21/2019'), new Date('04/04/2019'), testConfig.MonthlyBroken), false, 'Invalid configuration');
+	assert.equal(ltRecurrences.monthly_TEST_ONLY(new Date('03/21/2019'), new Date('03/25/2019'), testConfig.Monthly), false, 'Range before start date');
+	assert.equal(ltRecurrences.monthly_TEST_ONLY(new Date('03/02/2019'), new Date('03/31/2019'), testConfig.Monthly), false, 'Range contains no recurrence');
+	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('03/21/2019'), new Date('04/01/2019'), testConfig.Monthly), [new Date('04/01/2019')], 'Range ends on start date');
+	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('03/21/2019'), new Date('04/05/2019'), testConfig.Monthly), [new Date('04/01/2019')], 'Range spans start date');
+	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('03/31/2019'), new Date('04/02/2019'), testConfig.Monthly), [new Date('04/01/2019')], 'Range closely spans start date');
+	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('04/01/2019'), new Date('04/05/2019'), testConfig.Monthly), [new Date('04/01/2019')], 'Range begins on start date');
+	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('04/01/2019'), new Date('04/01/2019'), testConfig.Monthly), [new Date('04/01/2019')], 'Range begins and ends on start date');
+	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('01/01/2019'), new Date('05/02/2019'), testConfig.Monthly), [new Date('04/01/2019'), new Date('05/01/2019')], 'Range spans start date & first recurrence');
+});
+
 QUnit.test('Bi-weekly Income Recurrence', function (assert) {
 	assert.equal(ltRecurrences.weekly_TEST_ONLY(new Date('03/21/2019'), new Date('04/04/2019'), testConfig.BiWeeklyBroken), false, 'Invalid configuration');
 	assert.equal(ltRecurrences.weekly_TEST_ONLY(new Date('03/21/2019'), new Date('04/03/2019'), testConfig.BiWeekly), false, 'Range before start date');
@@ -40,5 +52,5 @@ QUnit.test('Recurrence Matches in Configured Range', function (assert) {
 	assert.equal(ltRecurrences.matches('not a date', false, 42), false, 'Invalid data types on parameters');
 	assert.equal(ltRecurrences.matches('04/05/2019', '04/03/2019', testConfig.RecurrenceParser), false, 'End date before start date');
 	assert.deepEqual(ltRecurrences.matches('04/04/2019', '04/04/2019', testConfig.RecurrenceParser), { 1: [new Date('04/04/2019')], 2: [new Date('04/04/2019')] }, 'Range begins and ends on start date');
-	assert.deepEqual(ltRecurrences.matches('03/21/2019', '04/04/2019', testConfig.RecurrenceParser), { 1: [new Date('04/04/2019')], 2: [new Date('04/04/2019')], 3: [new Date('03/26/2019')] }, 'Range ends on start date');
+	assert.deepEqual(ltRecurrences.matches('03/21/2019', '04/04/2019', testConfig.RecurrenceParser), { 1: [new Date('04/04/2019')], 2: [new Date('04/04/2019')], 3: [new Date('03/26/2019')], 4: [new Date('04/01/2019')] }, 'Range ends on start date');
 });

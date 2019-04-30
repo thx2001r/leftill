@@ -28,7 +28,13 @@ var testConfig = {
 		description: "Paycheck",
 		type: "Income",
 		recurrence: "Monthly",
-		recurrenceStart: "01/01/2019"
+		recurrenceStart: "04/01/2019"
+	}, MonthlyBroken: {
+		amount: 3000.01,
+		description: "Paycheck",
+		type: "Income",
+		recurrence: "Monthly",
+		recurrenceStart: "Something Broken!"
 	}, BiWeekly: {
 		amount: 500,
 		description: "Paycheck",
@@ -63,6 +69,12 @@ var testConfig = {
 			type: "Expense",
 			recurrence: "Yearly",
 			recurrenceStart: "03/26/2019"
+		}, 4: {
+			amount: 3000.01,
+			description: "Paycheck",
+			type: "Income",
+			recurrence: "Monthly",
+			recurrenceStart: "04/01/2019"
 		}
 	}
 };

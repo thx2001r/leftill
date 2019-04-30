@@ -25,6 +25,9 @@ var ltRecurrences = (function () {
 						case "Once":
 							configMatch = OnceParser(rangeStart, rangeEnd, config[keys[i]]);
 							break;
+						case "Yearly":
+							configMatch = YearlyParser(rangeStart, rangeEnd, config[keys[i]]);
+							break;
 						case "Weekly":
 							configMatch = WeeklyParser(rangeStart, rangeEnd, config[keys[i]]);
 							break;
@@ -41,40 +44,66 @@ var ltRecurrences = (function () {
 
 	// (private) - Parse a one-time date for matches within a date range
 	function OnceParser(rangeStart, rangeEnd, config) {
-		var oneTimeDate = new Date(config.recurrenceStart);
+		var recurrenceStart = new Date(config.recurrenceStart);
 
-		if (rangeStart <= oneTimeDate && rangeEnd >= oneTimeDate) {
+		if (rangeStart <= recurrenceStart && rangeEnd >= recurrenceStart) {
 			// Add matching recurrence
-			return [oneTimeDate];
+			return [recurrenceStart];
+		}
+		return false;
+	}
+
+	// (private) - Parse yearly recurrences for matches within a date range
+	function YearlyParser(rangeStart, rangeEnd, config) {
+		var recurrenceStart = new Date(config.recurrenceStart);
+
+		if (rangeEnd >= recurrenceStart) {
+			var recurrenceMatches = [],
+				recurrenceStartYear = recurrenceStart.getFullYear(),
+				rangeStartYear = rangeStart.getFullYear(),
+				candidateBaseString = (recurrenceStart.getMonth() + 1) + "/" + recurrenceStart.getDate() + "/";
+
+			// Loop through possible matches in range -- Feb 29th should be handled upstream in configuration
+			for (
+				var i = rangeStartYear <= recurrenceStartYear ? recurrenceStartYear : rangeStartYear;
+				i <= rangeEnd.getFullYear();
+				i++
+			) {
+				var recurrenceCandidate = new Date(candidateBaseString + i);
+
+				if (rangeStart <= recurrenceCandidate && rangeEnd >= recurrenceCandidate) {
+					// Add any matching recurrences
+					recurrenceMatches.push(recurrenceCandidate);
+				}
+			}
+			return recurrenceMatches;
 		}
 		return false;
 	}
 
 	// (private) - Parse weekly recurrences for matches within a date range
 	function WeeklyParser(rangeStart, rangeEnd, config) {
-		if (new Date(config.recurrenceStart) > 0) {
-			var recurrenceStart = new Date(config.recurrenceStart),
-				recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5,
-				recurrencesToRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds,
-				recurrencesToRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds,
-				rangeStartMatch = recurrencesToRangeStart === Math.floor(recurrencesToRangeStart),
-				rangeEndMatch = recurrencesToRangeEnd == Math.floor(recurrencesToRangeEnd),
-				spanningMatch = (Math.floor(recurrencesToRangeEnd) - Math.floor(recurrencesToRangeStart) > 0);
+		var recurrenceStart = new Date(config.recurrenceStart),
+			recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5,
+			recurrencesToRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds,
+			recurrencesToRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds,
+			rangeStartMatch = recurrencesToRangeStart === Math.floor(recurrencesToRangeStart),
+			rangeEndMatch = recurrencesToRangeEnd === Math.floor(recurrencesToRangeEnd),
+			spanningMatch = (Math.floor(recurrencesToRangeEnd) - Math.floor(recurrencesToRangeStart) > 0);
 
-			if (recurrencesToRangeEnd >= 0 && (rangeStartMatch || rangeEndMatch || spanningMatch)) {
-				var recurrenceMatches = [];
+		if (recurrencesToRangeEnd >= 0 && (rangeStartMatch || rangeEndMatch || spanningMatch)) {
+			var recurrenceMatches = [];
 
-				// Loop through possible matches in range, on or after the configured recurrence start date
-				for (
-					var i = recurrencesToRangeStart <= 0 ? 0 : rangeStartMatch ? recurrencesToRangeStart : Math.ceil(recurrencesToRangeStart);
-					i <= (rangeEndMatch ? recurrencesToRangeEnd : Math.floor(recurrencesToRangeEnd));
-					i++
-				) {
-					// Add any matching recurrences
-					recurrenceMatches.push(new Date(recurrenceStart.getTime() + (i * recurrenceMilliseconds)));
-				}
-				return recurrenceMatches;
+			// Loop through possible matches in range, on or after the configured recurrence start date
+			for (
+				var i = recurrencesToRangeStart <= 0 ? 0 : rangeStartMatch ? recurrencesToRangeStart : Math.ceil(recurrencesToRangeStart);
+				i <= (rangeEndMatch ? recurrencesToRangeEnd : Math.floor(recurrencesToRangeEnd));
+				i++
+			) {
+				// Add any matching recurrences
+				recurrenceMatches.push(new Date(recurrenceStart.getTime() + (i * recurrenceMilliseconds)));
 			}
+			return recurrenceMatches;
 		}
 		return false;
 	}
@@ -82,6 +111,7 @@ var ltRecurrences = (function () {
 	return {
 		/* BEGIN: Test-Only Code to Strip During Deployment */
 		once_TEST_ONLY: OnceParser,
+		yearly_TEST_ONLY: YearlyParser,
 		weekly_TEST_ONLY: WeeklyParser,
 		/* END: Test-Only Code to Strip During Deployment */
 		matches: ConfigMatches

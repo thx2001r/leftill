@@ -29,6 +29,12 @@ var testConfig = {
 		type: "Income",
 		recurrence: "Monthly",
 		recurrenceStart: "04/01/2019"
+	}, MonthlyEdgeDay: {
+		amount: 3000.01,
+		description: "Paycheck",
+		type: "Income",
+		recurrence: "Monthly",
+		recurrenceStart: "03/31/2019"
 	}, MonthlyBroken: {
 		amount: 3000.01,
 		description: "Paycheck",

@@ -20,7 +20,7 @@ module.exports = function (grunt) {
 			unit: ['tests/unit_tests.html']
 		},
 		watch: {
-			files: ['tests/unit_tests.js', 'src/js/*.js'],
+			files: ['tests/unit_tests.*', 'tests/unit_test_configs.js', 'src/js/*.js'],
 			tasks: ['jshint', 'qunit:unit']
 		},
 		copy: {

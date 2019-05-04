@@ -93,7 +93,7 @@ var ltRecurrences = (function () {
 				recurrenceDate = recurrenceStart.getDate(),
 				rangeBeforeStart = rangeStart <= recurrenceStart;
 
-			// Loop through possible matches in range -- Feb 29th should be handled upstream in configuration
+			// Loop through possible matches in range
 			for (
 				var i = rangeBeforeStart ? recurrenceStart.getMonth() + 1 : rangeStart.getMonth() + 2,
 					candidateYear = rangeBeforeStart ? recurrenceStart.getFullYear() : rangeStart.getFullYear(); ;
@@ -104,7 +104,11 @@ var ltRecurrences = (function () {
 					i = 1;
 					candidateYear++;
 				}
-				var recurrenceCandidate = new Date(i + "/" + recurrenceDate + "/" + candidateYear);
+
+				// Use last day of month if recurrence date is more than days in month
+				var daysInCandidateMonth = DaysInMonth(i - 1, candidateYear);
+				var candidateDate = recurrenceDate > daysInCandidateMonth ? daysInCandidateMonth : recurrenceDate;
+				var recurrenceCandidate = new Date(i + "/" + candidateDate + "/" + candidateYear);
 
 				if (rangeEnd >= recurrenceCandidate) {
 					// Add any matching recurrences

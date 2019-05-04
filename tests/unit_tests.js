@@ -31,6 +31,7 @@ QUnit.test('Monthly Recurrence', function (assert) {
 	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('04/01/2019'), new Date('04/05/2019'), testConfig.Monthly), [new Date('04/01/2019')], 'Range begins on start date');
 	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('04/01/2019'), new Date('04/01/2019'), testConfig.Monthly), [new Date('04/01/2019')], 'Range begins and ends on start date');
 	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('01/01/2019'), new Date('05/02/2019'), testConfig.Monthly), [new Date('04/01/2019'), new Date('05/01/2019')], 'Range spans start date & first recurrence');
+	assert.deepEqual(ltRecurrences.monthly_TEST_ONLY(new Date('03/01/2019'), new Date('05/01/2019'), testConfig.MonthlyEdgeDay), [new Date('03/31/2019'), new Date('04/30/2019')], 'Recurrence date greater than last day of some result months');
 });
 
 QUnit.test('Bi-weekly Income Recurrence', function (assert) {

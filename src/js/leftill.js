@@ -1,8 +1,12 @@
 /*-------------------------------------------------------------------------+
-|  Recurrence functions                                                    |
+|  Leftill recurrence module                                               |
 +-------------------------------------------------------------------------*/
 
 var ltRecurrences = (function () {
+
+	/*---------------------------------------------------------------------+
+	|  Recurrence module public functions                                  |
+	+---------------------------------------------------------------------*/
 
 	// Parse each config item for matches within a date range
 	function ConfigMatches(rangeStart, rangeEnd, config) {
@@ -45,7 +49,33 @@ var ltRecurrences = (function () {
 		return false;
 	}
 
-	// (private) - Parse a one-time date for matches within a date range
+	// Determine how many days in a given month/year
+	function DaysInMonth (month, year) {
+		if (month && year) {
+			var daysInMonth = {
+				0: 31,
+				1: year % 4 == 0 && !(year % 100 == 0 && year % 400 != 0) ? 29 : 28,
+				2: 31,
+				3: 30,
+				4: 31,
+				5: 30,
+				6: 31,
+				7: 31,
+				8: 30,
+				9: 31,
+				10: 30,
+				11: 31
+			};
+			return daysInMonth[month];
+		}
+		return false;
+	}
+
+	/*---------------------------------------------------------------------+
+	|  Recurrence pattern parsers - private functions                      |
+	+---------------------------------------------------------------------*/
+
+	// Parse a one-time date for matches within a date range
 	function OnceParser(rangeStart, rangeEnd, config) {
 		var recurrenceStart = new Date(config.recurrenceStart);
 
@@ -56,7 +86,7 @@ var ltRecurrences = (function () {
 		return false;
 	}
 
-	// (private) - Parse yearly recurrences for matches within a date range
+	// Parse yearly recurrences for matches within a date range
 	function YearlyParser(rangeStart, rangeEnd, config) {
 		var recurrenceStart = new Date(config.recurrenceStart);
 
@@ -84,7 +114,7 @@ var ltRecurrences = (function () {
 		return false;
 	}
 
-	// (private) - Parse monthly recurrences for matches within a date range
+	// Parse monthly recurrences for matches within a date range
 	function MonthlyParser(rangeStart, rangeEnd, config) {
 		var recurrenceStart = new Date(config.recurrenceStart);
 
@@ -122,7 +152,7 @@ var ltRecurrences = (function () {
 		return false;
 	}
 
-	// (private) - Parse weekly recurrences for matches within a date range
+	// Parse weekly recurrences for matches within a date range
 	function WeeklyParser(rangeStart, rangeEnd, config) {
 		var recurrenceStart = new Date(config.recurrenceStart),
 			recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5,
@@ -149,6 +179,10 @@ var ltRecurrences = (function () {
 		return false;
 	}
 
+	/*---------------------------------------------------------------------+
+	|  Return public functions and handle dev unit testing                 |
+	+---------------------------------------------------------------------*/
+
 	return {
 		/* BEGIN: Test-Only Code to Strip During Deployment */
 		once_TEST_ONLY: OnceParser,
@@ -156,28 +190,7 @@ var ltRecurrences = (function () {
 		monthly_TEST_ONLY: MonthlyParser,
 		weekly_TEST_ONLY: WeeklyParser,
 		/* END: Test-Only Code to Strip During Deployment */
-		matches: ConfigMatches
+		matches: ConfigMatches,
+		daysInMonth: DaysInMonth
 	};
 })();
-
-// Determine how many days in a given month/year
-function DaysInMonth (month, year) {
-	if (month && year) {
-		var daysInMonth = {
-			0: 31,
-			1: year % 4 == 0 && !(year % 100 == 0 && year % 400 != 0) ? 29 : 28,
-			2: 31,
-			3: 30,
-			4: 31,
-			5: 30,
-			6: 31,
-			7: 31,
-			8: 30,
-			9: 31,
-			10: 30,
-			11: 31
-		};
-		return daysInMonth[month];
-	}
-	return false;
-}

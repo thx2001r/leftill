@@ -54,3 +54,12 @@ QUnit.test('Recurrence Matches in Configured Range', function (assert) {
 	assert.deepEqual(ltRecurrences.matches('04/04/2019', '04/04/2019', testConfig.RecurrenceParser), { 1: [new Date('04/04/2019')], 2: [new Date('04/04/2019')] }, 'Range begins and ends on start date');
 	assert.deepEqual(ltRecurrences.matches('03/21/2019', '04/04/2019', testConfig.RecurrenceParser), { 1: [new Date('04/04/2019')], 2: [new Date('04/04/2019')], 3: [new Date('03/26/2019')], 4: [new Date('04/01/2019')] }, 'Range ends on start date');
 });
+
+QUnit.test('How many days in a given month and year', function (assert) {
+	assert.equal(DaysInMonth(), false, 'Function called with no parameters');
+	assert.equal(DaysInMonth(10,2019), 30, 'Days in November');
+	assert.equal(DaysInMonth(1,2019), 28, 'Days in a regular non-leap year February');
+	assert.equal(DaysInMonth(1,2000), 29, 'Days in a divisible by 400 leap year February');
+	assert.equal(DaysInMonth(1,2100), 28, 'Days in a divisible by 100, non-divisible by 400 non-leap year February');
+	assert.equal(DaysInMonth(1,2020), 29, 'Days in a regular 4-year leap year February');
+});

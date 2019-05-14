@@ -31,19 +31,6 @@ module.exports = function (grunt) {
 				dest: 'dist/js'
 			},
 		},
-		strip_code: {
-			options: {
-				blocks: [
-					{
-						start_block: "/* BEGIN: Test-Only Code to Strip During Deployment */",
-						end_block: "/* END: Test-Only Code to Strip During Deployment */"
-					}
-				]
-			},
-			your_target: {
-				src: 'dist/js/*.js'
-			}
-		},
 		uglify: {
 			my_target: {
 				files: [
@@ -88,7 +75,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-qunit');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-strip-code');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -96,5 +82,5 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	grunt.registerTask('default', ['jshint', 'qunit:all']);
-	grunt.registerTask('deploy', ['jshint', 'qunit:all', 'clean', 'copy', 'strip_code', 'uglify', 'concat', 'usebanner']);
+	grunt.registerTask('deploy', ['jshint', 'qunit:all', 'clean', 'copy', 'uglify', 'concat', 'usebanner']);
 };

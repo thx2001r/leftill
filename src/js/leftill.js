@@ -180,16 +180,10 @@ var ltRecurrences = (function () {
 	}
 
 	/*---------------------------------------------------------------------+
-	|  Return public functions and handle dev unit testing                 |
+	|  Return public functions                                             |
 	+---------------------------------------------------------------------*/
 
 	return {
-		/* BEGIN: Test-Only Code to Strip During Deployment */
-		once_TEST_ONLY: OnceParser,
-		yearly_TEST_ONLY: YearlyParser,
-		monthly_TEST_ONLY: MonthlyParser,
-		weekly_TEST_ONLY: WeeklyParser,
-		/* END: Test-Only Code to Strip During Deployment */
 		matches: ConfigMatches,
 		daysInMonth: DaysInMonth
 	};

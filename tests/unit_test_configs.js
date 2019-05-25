@@ -1,4 +1,4 @@
-var testConfig = {
+testConfig = {
 	Once: {
 		1: {
 			amount: 100,

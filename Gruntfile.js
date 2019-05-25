@@ -82,5 +82,5 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	grunt.registerTask('default', ['jshint', 'qunit:all']);
-	grunt.registerTask('deploy', ['jshint', 'qunit:all', 'clean', 'copy', 'uglify', 'concat', 'usebanner']);
+	grunt.registerTask('build', ['jshint', 'qunit:all', 'clean', 'copy', 'uglify', 'concat', 'usebanner']);
 };

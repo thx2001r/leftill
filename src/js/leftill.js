@@ -122,20 +122,20 @@ var ltRecurrences = (function () {
 
 			// Loop through possible matches in range
 			for (
-				var i = rangeBeforeStart ? recurrenceStart.getMonth() + 1 : rangeStart.getMonth() + 2,
+				var candidateMonth = rangeBeforeStart ? recurrenceStart.getMonth() : rangeStart.getMonth() + 1,
 					candidateYear = rangeBeforeStart ? recurrenceStart.getFullYear() : rangeStart.getFullYear(); ;
-				i++
+				candidateMonth++
 			) {
-				if (i > 12) {
+				if (candidateMonth > 11) {
 					// Roll over candidate month to January of the next year
-					i = 1;
+					candidateMonth = 0;
 					candidateYear++;
 				}
 
 				// Use last day of month if recurrence date is more than days in month
-				var daysInCandidateMonth = DaysInMonth(i - 1, candidateYear);
+				var daysInCandidateMonth = DaysInMonth(candidateMonth, candidateYear);
 				var candidateDate = recurrenceDate > daysInCandidateMonth ? daysInCandidateMonth : recurrenceDate;
-				var recurrenceCandidate = new Date(i + "/" + candidateDate + "/" + candidateYear);
+				var recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate);
 
 				if (rangeEnd >= recurrenceCandidate) {
 					// Add any matching recurrences

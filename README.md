@@ -1,4 +1,4 @@
-# LefTill
+# leftill
 A simple way to track how much money is left until your next paycheck.
 
 ## Short-term goals:

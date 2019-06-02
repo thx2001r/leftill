@@ -64,3 +64,9 @@ QUnit.test('How many days in a given month and year', function (assert) {
 	assert.equal(ltRecurrences.daysInMonth(1,2100), 28, 'Days in a divisible by 100, non-divisible by 400 non-leap year February');
 	assert.equal(ltRecurrences.daysInMonth(1,2020), 29, 'Days in a regular 4-year leap year February');
 });
+
+QUnit.test('Turn a date object into a string', function (assert) {
+	assert.equal(dateToString(), false, 'Function called with no parameters');
+	assert.notEqual(dateToString(new Date('04/05/2019')), '4/5/2019', 'Date returned will be zero padded string');
+	assert.equal(dateToString(new Date('04/05/2019')), '04/05/2019', 'Convert date to zero padded string');
+});

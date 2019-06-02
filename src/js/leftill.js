@@ -91,15 +91,16 @@ var ltRecurrences = (function () {
 			var recurrenceMatches = [],
 				recurrenceStartYear = recurrenceStart.getFullYear(),
 				rangeStartYear = rangeStart.getFullYear(),
-				candidateBaseString = (recurrenceStart.getMonth() + 1) + "/" + recurrenceStart.getDate() + "/";
+				candidateMonth = recurrenceStart.getMonth(),
+				candidateDate = recurrenceStart.getDate();
 
 			// Loop through possible matches in range -- Feb 29th should be handled upstream in configuration
 			for (
-				var i = rangeStartYear <= recurrenceStartYear ? recurrenceStartYear : rangeStartYear;
-				i <= rangeEnd.getFullYear();
-				i++
+				var candidateYear = rangeStartYear <= recurrenceStartYear ? recurrenceStartYear : rangeStartYear;
+				candidateYear <= rangeEnd.getFullYear();
+				candidateYear++
 			) {
-				var recurrenceCandidate = new Date(candidateBaseString + i);
+				var recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate);
 
 				if (rangeStart <= recurrenceCandidate && rangeEnd >= recurrenceCandidate) {
 					// Add any matching recurrences
@@ -185,3 +186,15 @@ var ltRecurrences = (function () {
 		daysInMonth: DaysInMonth
 	};
 })();
+
+
+/*-------------------------------------------------------------------------+
+|  Miscellaneous functions                                                 |
++-------------------------------------------------------------------------*/
+
+function dateToString(dateObject) {
+	if (isObject(dateObject)) {
+		return [zeroPad(dateObject.getMonth() + 1, 2), zeroPad(dateObject.getDate(), 2), dateObject.getFullYear()].join("/");
+	}
+	return false;
+}

@@ -10,6 +10,12 @@ var ltRecurrences = (function () {
 
 	// Parse each config item for matches within a date range
 	function ConfigMatches(start, end, config) {
+		/*
+			Note on string date formats: JavaScript Short Dates (MM/DD/YYYY -- zero padded)
+			convert to midnight on the date in the current time zone.  Other string date
+			formats, including ISO 8601, add a time offset from GMT when converted to date
+			objects and should be avoided.			
+		*/
 		var rangeStart = new Date(start);
 		var rangeEnd = new Date(end);
 
@@ -194,6 +200,7 @@ var ltRecurrences = (function () {
 
 function dateToString(dateObject) {
 	if (isObject(dateObject)) {
+		// Return a JavaScript Short Date as a string: MM/DD/YYYY (zero padded)
 		return [zeroPad(dateObject.getMonth() + 1, 2), zeroPad(dateObject.getDate(), 2), dateObject.getFullYear()].join("/");
 	}
 	return false;

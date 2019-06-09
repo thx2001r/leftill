@@ -2,14 +2,16 @@
 A simple way to track how much money is left until your next paycheck.
 
 ## Short-term goals:
-* Configuration of recurring income, planned expenses, and unplanned spending
+* Configuration of planned/recurring income and expenses
 * Parsing of recurrences that occur within a date range (pay period until next paycheck)
+* Parsing of overrides to planned income and expenses
 * Figuring out a current cleared balance at a point in time, akin to a "T" account in accounting terms
+  * This is based on planned/recurring income and expenses as well as unplanned spending
 
 ## Long-term goals:
 * Create a configuration UI for recurrences
-* Create a UI to log cleared income and planned expenses
-* Create a UI to override planned income/expenses (when paycheck or bills vary per pay period)
+* Create a UI to log cleared planned/recurring income and expenses
+* Create a UI to override recurring/planned income and expenses (when paycheck or bills vary per pay period)
 * Create a UI to log current bank account balance
 
 ## Pre-requisities:

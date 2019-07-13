@@ -119,10 +119,10 @@ testConfig = {
 
 
 /*
-	Indicate if there was a one time override of a configured recurrence (not necessarily cleared).
+	Indicate if there was a one-time override of a configured recurrence (not necessarily cleared).
 
 	The top level objects below are named test scenarios data.  Within the scenarios, you'd find them this way:
-		if (1 in testDateOverrides && "04/05/2019" in testDateOverrides[1]) { ... }
+		if (1 in testDateOverrides && "04/04/2019" in testDateOverrides[1]) { ... }
 	
 	The structure of the recurrence date overrides data is:
 		configurationID: {			(recurrence configruation IDs are unique, integer keys)
@@ -135,9 +135,9 @@ testConfig = {
 */
 
 testDateOverrides = {
-	1: {
-		"04/05/2019": {
-			newDate: "04/06/2019",
+	2: {
+		"04/04/2019": {
+			newDate: "04/03/2019",
 			amount: 102.50,
 			description: "Pre-school deposit paid early"
 		}
@@ -157,7 +157,7 @@ testDateOverrides = {
 */
 
 testCleared = {
-	"04/05/2019": {
+	"04/03/2019": {
 		1: true
 	}
 };

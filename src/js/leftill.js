@@ -201,7 +201,7 @@ var ltRecurrences = (function () {
 function dateToString(dateObject) {
 	if (isObject(dateObject)) {
 		// Return a JavaScript Short Date as a string: MM/DD/YYYY (zero padded)
-		return [zeroPad(dateObject.getMonth() + 1, 2), zeroPad(dateObject.getDate(), 2), dateObject.getFullYear()].join("/");
+		return [("00" + (dateObject.getMonth() + 1)).slice(-2), ("00" + dateObject.getDate()).slice(-2), dateObject.getFullYear()].join("/");
 	}
 	return false;
 }

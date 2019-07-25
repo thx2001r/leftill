@@ -1,4 +1,16 @@
 module.exports = function (grunt) {
+	grunt.config('puppeteerArgs', (function(){
+		/* 
+			No sandbox mode for Chromium can optionally help QUnit's Puppeteer dependency
+			work with Docker. Use: grunt --noSandbox=true
+		*/
+		var args = '';
+		if (grunt.option('noSandbox') === true) {
+			args = '--no-sandbox';
+		}
+		return args;
+	})());
+	
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		banner: [
@@ -17,7 +29,12 @@ module.exports = function (grunt) {
 
 		qunit: {
 			all: ['tests/*.html'],
-			unit: ['tests/unit_tests.html']
+			unit: ['tests/unit_tests.html'],
+			options: {
+				puppeteer: {
+					args: [grunt.config('puppeteerArgs')]
+				}
+			}
 		},
 		watch: {
 			files: ['tests/unit_tests.*', 'tests/unit_test_configs.js', 'src/js/*.js'],

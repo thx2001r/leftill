@@ -34,10 +34,10 @@ A simple way to track how much money is left until your next paycheck.
 3. Add the following lines to the end of the file:
    * `export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true`
    * `export PUPPETEER_EXECUTABLE_PATH=/path/to/chromium/`
-      * NOTE: To find the path to your local Chromium, open the browser, navigate to chrome://version/ then copy the path (not options) of either "command line" or "executable path"
-4. Save the file.
-5. Make sure to close all open terminals.
-6. Try the Getting started steps again.
+      * NOTE: To find the path to your local Chromium, open the browser, navigate to `chrome://version/` then copy the path (not options) of either "command line" or "executable path"
+4. Save the file
+5. Make sure to close all open terminal windows
+6. Try the Getting started steps again
 
 ## Available Grunt tasks:
 These are run in the terminal (or from your IDE) from the repo directory that contains `Gruntfile.js`:

@@ -46,6 +46,9 @@ var ltRecurrences = (function () {
 							break;
 					}
 
+					// Parse exceptions defined in the configuration
+					configMatch = ExceptionsParser(configMatch, config[keys[i]]);
+
 					// Add any matching dates for the configuration 
 					if (configMatch.length > 0) configMatches[keys[i]] = configMatch;
 				}
@@ -181,6 +184,23 @@ var ltRecurrences = (function () {
 			return recurrenceMatches;
 		}
 		return false;
+	}
+
+	// Parse exceptions to a config for a given date range
+	function ExceptionsParser(matches, config) {
+		if (matches.length > 0 && config.exceptions && config.exceptions.length > 0) {
+			var remainingMatches = [];
+
+			// Loop through possible matches in range, on or after the configured recurrence start date
+			for (var i = 0; i < matches.length; i++) {
+				if (config.exceptions.indexOf(dateToString(matches[i])) == -1) {
+					// Add matches without an exception
+					remainingMatches.push(matches[i]);
+				}
+			}
+			return remainingMatches;
+		}
+		return matches;
 	}
 
 	/*---------------------------------------------------------------------+

@@ -48,6 +48,11 @@ QUnit.test('Bi-weekly Income Recurrence', function (assert) {
 	assert.deepEqual(ltRecurrences.matches('06/21/2019', '06/30/2019', testConfig.BiWeekly), { 1: [new Date('06/27/2019')] }, 'Range spans future recurrence');
 });
 
+QUnit.test('Exceptions to Recurrence', function (assert) {
+	assert.deepEqual(ltRecurrences.matches('04/30/2020', '05/02/2020', testConfig.Exceptions), false, 'Range exceptions wipe out matches');
+	assert.deepEqual(ltRecurrences.matches('04/30/2019', '05/02/2023', testConfig.Exceptions), { 1: [new Date('05/01/2019'), new Date('05/01/2021'), new Date('05/01/2023')] }, 'Range contains exceptions to recurrence');
+});
+
 QUnit.test('Recurrence Matches in Configured Range', function (assert) {
 	assert.equal(ltRecurrences.matches(), false, 'Function called with no parameters');
 	assert.equal(ltRecurrences.matches('not a date', false, 42), false, 'Invalid data types on parameters');

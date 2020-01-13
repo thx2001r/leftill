@@ -87,6 +87,18 @@ testConfig = {
 			weeksRecurrence: "a",
 			recurrenceStart: "Something Broken!"
 		}
+	}, Exceptions: {
+		1: {
+			amount: 15,
+			description: "Tag fee",
+			type: "Expense",
+			recurrence: "Yearly",
+			recurrenceStart: "05/01/2019",
+			exceptions: [
+				"05/01/2020",
+				"05/01/2022"
+			]
+		}
 	}, RecurrenceParser: {
 		1: {
 			amount: 500,
@@ -114,50 +126,5 @@ testConfig = {
 			recurrence: "Monthly",
 			recurrenceStart: "04/01/2019"
 		}
-	}
-};
-
-
-/*
-	Indicate if there was a one-time override of a configured recurrence (not necessarily cleared).
-
-	The top level objects below are named test scenarios data.  Within the scenarios, you'd find them this way:
-		if (1 in testDateOverrides && "04/04/2019" in testDateOverrides[1]) { ... }
-	
-	The structure of the recurrence date overrides data is:
-		configurationID: {			(recurrence configruation IDs are unique, integer keys)
-			recurrenceDate: {		(unique string key, in short date format: "MM/DD/YYYY" zero padded MM and DD)
-				newDate: string,	(short date format: "MM/DD/YYYY" zero padded MM and DD)
-				amount: decimal,	(optional, if the configured value is overriden)
-				description: string	(optional, if the configured value is overriden)
-			}
-		}
-*/
-
-testDateOverrides = {
-	2: {
-		"04/04/2019": {
-			newDate: "04/03/2019",
-			amount: 102.50,
-			description: "Pre-school deposit paid early"
-		}
-	} 
-};
-
-
-/*
-	Indicate cleared transactions.
-
-	The top level objects below are named test scenarios data.
-
-	The structure of the cleared transactions data is:
-		date: {						(unique string key, in short date format: "MM/DD/YYYY" zero padded MM and DD)
-			configurationID: true	(configuration IDs are unique for the date, integer keys)
-		}
-*/
-
-testCleared = {
-	"04/03/2019": {
-		1: true
 	}
 };

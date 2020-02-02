@@ -46,11 +46,13 @@ var ltRecurrences = (function () {
 							break;
 					}
 
-					// Parse exceptions defined in the configuration
-					configMatch = ExceptionsParser(configMatch, config[keys[i]]);
+					if (configMatch.length > 0) {
+						// Parse any exceptions defined in the configuration
+						if (config[keys[i]].exceptions) configMatch = ExceptionsParser(configMatch, config[keys[i]]);
 
-					// Add any matching dates for the configuration 
-					if (configMatch.length > 0) configMatches[keys[i]] = configMatch;
+						// Add any remaining matching dates for the configuration 
+						if (configMatch.length > 0) configMatches[keys[i]] = configMatch;
+					}
 				}
 			}
 			return Object.keys(configMatches).length > 0 ? configMatches : false;
@@ -188,19 +190,16 @@ var ltRecurrences = (function () {
 
 	// Parse exceptions to a config for a given date range
 	function ExceptionsParser(matches, config) {
-		if (matches.length > 0 && config.exceptions && config.exceptions.length > 0) {
-			var remainingMatches = [];
+		var remainingMatches = [];
 
-			// Loop through possible matches in range, on or after the configured recurrence start date
-			for (var i = 0; i < matches.length; i++) {
-				if (config.exceptions.indexOf(dateToString(matches[i])) == -1) {
-					// Add matches without an exception
-					remainingMatches.push(matches[i]);
-				}
+		// Loop through matches and exclude exceptions from matches
+		for (var i = 0; i < matches.length; i++) {
+			if (config.exceptions.indexOf(dateToString(matches[i])) == -1) {
+				// Add matches without an exception
+				remainingMatches.push(matches[i]);
 			}
-			return remainingMatches;
 		}
-		return matches;
+		return remainingMatches;
 	}
 
 	/*---------------------------------------------------------------------+

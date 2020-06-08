@@ -21,7 +21,7 @@ A simple way to track how much money is left until your next paycheck.
 * [Git](https://git-scm.com/) distributed version control system
 
 ## Getting started:
-1. Open the terminal (no `sudo` necessary on Windows for the commands below)
+1. Open the terminal (no `sudo` necessary on Windows or Linux for the commands below)
 2. `cd` to the path you want to clone this repo into
 3. Clone this repo `git clone https://github.com/thx2001r/leftill.git`
 4. `cd leftill`

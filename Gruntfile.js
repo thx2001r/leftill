@@ -22,7 +22,7 @@ module.exports = function (grunt) {
 			'|  |_|\\___|_|  \\__|_|_|_|    https://github.com/thx2001r/leftill           |',
 			'|                                                                          |',
 			'+--------------------------------------------------------------------------+',
-			'|  Copyright (c) 2019 Joseph Reiter                                        |',
+			'|  Copyright (c) 2020 Joseph Reiter                                        |',
 			'|  https://github.com/thx2001r/leftill/blob/master/LICENSE                 |',
 			'+-------------------------------------------------------------------------*/'
 		].join('\n'),

@@ -46,4 +46,4 @@ These are run in the terminal (or from your IDE) from the repo directory that co
 * `grunt build` runs JSHint, unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
 * `grunt clean` cleans the `./dist/` directory
 
-NOTE: If you are running unit tests in Docker or other similar containers (such as Linux on DeX), you can append the following option to your grunt tasks in the terminal if Chromium won't work: `--noSandbox=true`
+NOTE: If you are running unit tests in Docker or other similar containers, you can append the following option to your grunt tasks in the terminal if Chromium won't work: `--noSandbox=true`

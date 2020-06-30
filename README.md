@@ -30,7 +30,7 @@ A simple way to track how much money is left until your next paycheck.
 
 ## Skipping install of Chromium browser, if you have trouble in Linux and Mac OS related to the folder your repo is cloned to:
 1. Download and Install Chromium for your operating system
-2. Open the .bashrc or .bash_profile or .profile, dependng on your shell and operating system in a text editor
+2. Open .bashrc, .bash_profile, or .profile, in your home directory, depending on your shell and operating system in a text editor
 3. Add the following lines to the end of the file:
    * `export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true`
    * `export PUPPETEER_EXECUTABLE_PATH=/path/to/chromium/`

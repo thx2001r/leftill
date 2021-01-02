@@ -10,18 +10,18 @@ function ConfigMatches (start, end, config) {
     formats, including ISO 8601, add a time offset from GMT when converted to date
     objects and should be avoided.
   */
-  var rangeStart = new Date(start)
-  var rangeEnd = new Date(end)
+  const rangeStart = new Date(start)
+  const rangeEnd = new Date(end)
 
   if (rangeStart > 0 && rangeEnd > 0 && rangeStart <= rangeEnd && typeof config === 'object') {
-    var configMatches = {}
-    var keys = Object.keys(config)
+    const configMatches = {}
+    const keys = Object.keys(config)
 
     // Loop through possible matching configurations
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       // Parse config if required parameters present
       if (new Date(config[keys[i]].recurrenceStart) > 0) {
-        var configMatch = []
+        let configMatch = []
 
         // Route configuration to appropriate configuration parser
         switch (config[keys[i]].recurrence) {
@@ -55,7 +55,7 @@ function ConfigMatches (start, end, config) {
 
 // Determine how many days in a given month/year
 function DaysInMonth (month, year) {
-  var daysInMonth = [
+  const daysInMonth = [
     31,
     year % 4 === 0 && !(year % 100 === 0 && year % 400 !== 0) ? 29 : 28,
     31,
@@ -86,7 +86,7 @@ function DateToString (dateObject) {
 
 // Parse a one-time date for matches within a date range
 function OnceParser (rangeStart, rangeEnd, config) {
-  var recurrenceStart = new Date(config.recurrenceStart)
+  const recurrenceStart = new Date(config.recurrenceStart)
 
   if (rangeStart <= recurrenceStart && rangeEnd >= recurrenceStart) {
     // Add matching recurrence
@@ -97,22 +97,22 @@ function OnceParser (rangeStart, rangeEnd, config) {
 
 // Parse yearly recurrences for matches within a date range
 function YearlyParser (rangeStart, rangeEnd, config) {
-  var recurrenceStart = new Date(config.recurrenceStart)
+  const recurrenceStart = new Date(config.recurrenceStart)
 
   if (rangeEnd >= recurrenceStart) {
-    var recurrenceMatches = []
-    var recurrenceStartYear = recurrenceStart.getFullYear()
-    var rangeStartYear = rangeStart.getFullYear()
-    var candidateMonth = recurrenceStart.getMonth()
-    var candidateDate = recurrenceStart.getDate()
+    const recurrenceMatches = []
+    const recurrenceStartYear = recurrenceStart.getFullYear()
+    const rangeStartYear = rangeStart.getFullYear()
+    const candidateMonth = recurrenceStart.getMonth()
+    const candidateDate = recurrenceStart.getDate()
 
     // Loop through possible matches in range -- Feb 29th should be handled upstream in configuration
     for (
-      var candidateYear = rangeStartYear <= recurrenceStartYear ? recurrenceStartYear : rangeStartYear;
+      let candidateYear = rangeStartYear <= recurrenceStartYear ? recurrenceStartYear : rangeStartYear;
       candidateYear <= rangeEnd.getFullYear();
       candidateYear++
     ) {
-      var recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate)
+      const recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate)
 
       if (rangeStart <= recurrenceCandidate && rangeEnd >= recurrenceCandidate) {
         // Add any matching recurrences
@@ -126,16 +126,16 @@ function YearlyParser (rangeStart, rangeEnd, config) {
 
 // Parse monthly recurrences for matches within a date range
 function MonthlyParser (rangeStart, rangeEnd, config) {
-  var recurrenceStart = new Date(config.recurrenceStart)
+  const recurrenceStart = new Date(config.recurrenceStart)
 
   if (rangeEnd >= recurrenceStart) {
-    var recurrenceMatches = []
-    var recurrenceDate = recurrenceStart.getDate()
-    var rangeBeforeStart = rangeStart <= recurrenceStart
+    const recurrenceMatches = []
+    const recurrenceDate = recurrenceStart.getDate()
+    const rangeBeforeStart = rangeStart <= recurrenceStart
 
     // Loop through possible matches in range
     for (
-      var candidateMonth = rangeBeforeStart ? recurrenceStart.getMonth() : rangeStart.getMonth() + 1,
+      let candidateMonth = rangeBeforeStart ? recurrenceStart.getMonth() : rangeStart.getMonth() + 1,
         candidateYear = rangeBeforeStart ? recurrenceStart.getFullYear() : rangeStart.getFullYear(); ;
       candidateMonth++
     ) {
@@ -146,9 +146,9 @@ function MonthlyParser (rangeStart, rangeEnd, config) {
       }
 
       // Use last day of month if recurrence date is more than days in month
-      var daysInCandidateMonth = DaysInMonth(candidateMonth, candidateYear)
-      var candidateDate = recurrenceDate > daysInCandidateMonth ? daysInCandidateMonth : recurrenceDate
-      var recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate)
+      const daysInCandidateMonth = DaysInMonth(candidateMonth, candidateYear)
+      const candidateDate = recurrenceDate > daysInCandidateMonth ? daysInCandidateMonth : recurrenceDate
+      const recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate)
 
       if (rangeEnd >= recurrenceCandidate) {
         // Add any matching recurrences
@@ -164,20 +164,20 @@ function MonthlyParser (rangeStart, rangeEnd, config) {
 
 // Parse weekly recurrences for matches within a date range
 function WeeklyParser (rangeStart, rangeEnd, config) {
-  var recurrenceStart = new Date(config.recurrenceStart)
-  var recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5
-  var recurrencesToRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds
-  var recurrencesToRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds
-  var rangeStartMatch = recurrencesToRangeStart === Math.floor(recurrencesToRangeStart)
-  var rangeEndMatch = recurrencesToRangeEnd === Math.floor(recurrencesToRangeEnd)
-  var spanningMatch = (Math.floor(recurrencesToRangeEnd) - Math.floor(recurrencesToRangeStart) > 0)
+  const recurrenceStart = new Date(config.recurrenceStart)
+  const recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5
+  const recurrencesToRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds
+  const recurrencesToRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds
+  const rangeStartMatch = recurrencesToRangeStart === Math.floor(recurrencesToRangeStart)
+  const rangeEndMatch = recurrencesToRangeEnd === Math.floor(recurrencesToRangeEnd)
+  const spanningMatch = (Math.floor(recurrencesToRangeEnd) - Math.floor(recurrencesToRangeStart) > 0)
 
   if (recurrencesToRangeEnd >= 0 && (rangeStartMatch || rangeEndMatch || spanningMatch)) {
-    var recurrenceMatches = []
+    const recurrenceMatches = []
 
     // Loop through possible matches in range, on or after the configured recurrence start date
     for (
-      var i = recurrencesToRangeStart <= 0 ? 0 : rangeStartMatch ? recurrencesToRangeStart : Math.ceil(recurrencesToRangeStart);
+      let i = recurrencesToRangeStart <= 0 ? 0 : rangeStartMatch ? recurrencesToRangeStart : Math.ceil(recurrencesToRangeStart);
       i <= (rangeEndMatch ? recurrencesToRangeEnd : Math.floor(recurrencesToRangeEnd));
       i++
     ) {
@@ -191,10 +191,10 @@ function WeeklyParser (rangeStart, rangeEnd, config) {
 
 // Parse exceptions to a config for a given date range
 function ExceptionsParser (matches, config) {
-  var remainingMatches = []
+  const remainingMatches = []
 
   // Loop through matches and exclude exceptions from matches
-  for (var i = 0; i < matches.length; i++) {
+  for (let i = 0; i < matches.length; i++) {
     if (config.exceptions.indexOf(DateToString(matches[i])) === -1) {
       // Add matches without an exception
       remainingMatches.push(matches[i])

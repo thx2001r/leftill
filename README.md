@@ -42,11 +42,9 @@ The structure of the recurrence configuration data is:
 The are run in the terminal from the repo directory or in your IDE:
 *  `npm run watch` watches for changes and runs unit tests stored in the `./__tests__/` directory
 *  `npm run test` runs all unit tests once
-*  `npm run build` runs ESLint, unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
+*  `npm run build` runs runs [ESLint](https://eslint.org/), unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
 *  `npm run clean` cleans the `./dist/` directory
 ## Available Grunt tasks:
 These are run in the terminal from the repo directory that contains `Gruntfile.js`:
-* `grunt run:watch` watches for changes and runs unit tests stored in the `./__tests__/` directory
-* `grunt` runs [ESLint](https://eslint.org/) on the source and all unit tests once
-* `grunt build` runs ESLint, unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
+* `grunt build` runs [ESLint](https://eslint.org/), unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
 * `grunt clean` cleans the `./dist/` directory

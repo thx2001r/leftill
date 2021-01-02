@@ -9,12 +9,11 @@
 		"clean": "grunt clean"
 	},
 	"devDependencies": {
-		"eslint": "^7.11.0",
-		"eslint-config-standard": "^14.1.1",
+		"eslint": "^7.17.0",
+		"eslint-config-standard": "^16.0.2",
 		"eslint-plugin-import": "^2.22.1",
 		"eslint-plugin-node": "^11.1.0",
 		"eslint-plugin-promise": "^4.2.1",
-		"eslint-plugin-standard": "^4.0.1",
 		"grunt": "^1.3.0",
 		"grunt-banner": "^0.6.0",
 		"grunt-contrib-clean": "^2.0.0",
@@ -22,7 +21,7 @@
 		"grunt-contrib-uglify": "^5.0.0",
 		"grunt-eslint": "^23.0.0",
 		"grunt-run": "^0.8.1",
-		"jest": "^26.5.2"
+		"jest": "^26.6.3"
 	},
 	"repository": {
 		"type": "git",

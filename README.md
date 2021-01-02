@@ -14,6 +14,16 @@ A simple way to track how much money is left until your next paycheck.
 * Create a UI to override recurring/planned income and expenses (when paycheck or bills vary per pay period)
 * Create a UI to log current bank account balance
 
+## Recurrence configuration data:
+	The structure of the recurrence configuration data is:
+		configurationID: {				(configuration IDs are unique, integer keys)
+			amount: decimal,			(amount of each recurrence)
+			description: string,		(description of the recurring transaction)
+			type: string,				("Income" or "Expense")
+			recurrence: string,			(this is the recurrence parser to use)
+			recurenceStart: string,		(short date format: "MM/DD/YYYY" zero padded MM and DD)
+			weeksRecurrence: integer,	(optional, for weekly parser: default is every week ... 2 is every 2 weeks, etc.)
+		}
 ## Pre-requisities:
 * [Node.js](https://nodejs.org/) to be able to use the Node Package Manager (NPM)
 * [Grunt](https://gruntjs.com/) task runner command-line interface (no `sudo` necessary on Windows)
@@ -21,29 +31,21 @@ A simple way to track how much money is left until your next paycheck.
 * [Git](https://git-scm.com/) distributed version control system
 
 ## Getting started:
-1. Open the terminal (no `sudo` necessary on Windows or Linux for the commands below)
+1. Open the terminal
 2. `cd` to the path you want to clone this repo into
-3. Clone this repo `git clone https://github.com/thx2001r/leftill.git`
+3. Clone this repo HTTPS `git clone https://github.com/thx2001r/leftill.git` or SSH `git clone git@github.com:thx2001r/leftill.git`
 4. `cd leftill`
-5. Download and install related packages `sudo npm install`
-   * NOTE: Testing requires puppeteer and a headless Chromium browser.  This can be tricky to install in Linux and Mac OS.  Please [take a look at this guide](https://github.com/GoogleChrome/puppeteer/issues/3443) if you have any trouble with this step.
+5. Download and install related packages `npm install`
 
-## Skipping install of Chromium browser, if you have trouble in Linux and Mac OS related to the folder your repo is cloned to:
-1. Download and Install Chromium for your operating system
-2. Open .bashrc, .bash_profile, or .profile, in your home directory, depending on your shell and operating system in a text editor
-3. Add the following lines to the end of the file:
-   * `export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true`
-   * `export PUPPETEER_EXECUTABLE_PATH=/path/to/chromium/`
-      * NOTE: To find the path to your local Chromium, open the browser, navigate to `chrome://version/` then copy the path (not options) of either "command line" or "executable path"
-4. Save the file
-5. Make sure to close all open terminal windows
-6. Try the Getting started steps again
-
+## NPM Scripts:
+The are run in the terminal from the repo directory or in your IDE:
+*  `npm run watch` watches for changes and runs unit tests stored in the `./__tests__/` directory
+*  `npm run test` runs all unit tests once
+*  `npm run build` runs ESLint, unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
+*  `npm run clean` cleans the `./dist/` directory
 ## Available Grunt tasks:
-These are run in the terminal (or from your IDE) from the repo directory that contains `Gruntfile.js`:
-* `grunt` runs [JSHint](https://jshint.com/) on the source and the unit tests
-* `grunt watch` useful for TDD, watches for changes and runs JSHint and unit tests on the javascript `./src/js/` files and unit tests `./test/`
-* `grunt build` runs JSHint, unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
+These are run in the terminal from the repo directory that contains `Gruntfile.js`:
+* `grunt run:watch` watches for changes and runs unit tests stored in the `./__tests__/` directory
+* `grunt` runs [ESLint](https://eslint.org/) on the source and all unit tests once
+* `grunt build` runs ESLint, unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
 * `grunt clean` cleans the `./dist/` directory
-
-NOTE: If you are running unit tests in Docker or other similar containers, you can append the following option to your grunt tasks in the terminal if Chromium won't work: `--noSandbox=true`

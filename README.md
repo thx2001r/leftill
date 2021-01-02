@@ -15,15 +15,16 @@ A simple way to track how much money is left until your next paycheck.
 * Create a UI to log current bank account balance
 
 ## Recurrence configuration data:
-	The structure of the recurrence configuration data is:
-		configurationID: {				(configuration IDs are unique, integer keys)
-			amount: decimal,			(amount of each recurrence)
-			description: string,		(description of the recurring transaction)
-			type: string,				("Income" or "Expense")
-			recurrence: string,			(this is the recurrence parser to use)
-			recurenceStart: string,		(short date format: "MM/DD/YYYY" zero padded MM and DD)
-			weeksRecurrence: integer,	(optional, for weekly parser: default is every week ... 2 is every 2 weeks, etc.)
-		}
+The structure of the recurrence configuration data is:
+
+	configurationID: {			(configuration IDs are unique, integer keys)
+		amount: decimal,		(amount of each recurrence)
+		description: string,		(description of the recurring transaction)
+		type: string,			("Income" or "Expense")
+		recurrence: string,		(this is the recurrence parser to use)
+		recurenceStart: string,		(short date format: "MM/DD/YYYY" zero padded MM and DD)
+		weeksRecurrence: integer,	(optional, for weekly parser: default is every week ... 2 is every 2 weeks, etc.)
+	}
 ## Pre-requisities:
 * [Node.js](https://nodejs.org/) to be able to use the Node Package Manager (NPM)
 * [Grunt](https://gruntjs.com/) task runner command-line interface (no `sudo` necessary on Windows)

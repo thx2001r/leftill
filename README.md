@@ -27,24 +27,18 @@ The structure of the recurrence configuration data is:
 	}
 ## Pre-requisities:
 * [Node.js](https://nodejs.org/) to be able to use the Node Package Manager (NPM)
-* [Grunt](https://gruntjs.com/) task runner command-line interface (no `sudo` necessary on Windows)
-  * In the terminal: `sudo npm install -g grunt-cli`
 * [Git](https://git-scm.com/) distributed version control system
 
 ## Getting started:
 1. Open the terminal
 2. `cd` to the path you want to clone this repo into
-3. Clone this repo HTTPS `git clone https://github.com/thx2001r/leftill.git` or SSH `git clone git@github.com:thx2001r/leftill.git`
+3. Clone this repo via:
+    * HTTPS: `git clone https://github.com/thx2001r/leftill.git`
+    * SSH: `git clone git@github.com:thx2001r/leftill.git`
 4. `cd leftill`
 5. Download and install related packages `npm install`
 
 ## NPM Scripts:
 The are run in the terminal from the repo directory or in your IDE:
 *  `npm run watch` watches for changes and runs unit tests stored in the `./__tests__/` directory
-*  `npm run test` runs all unit tests once
-*  `npm run build` runs runs [ESLint](https://eslint.org/), unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
-*  `npm run clean` cleans the `./dist/` directory
-## Available Grunt tasks:
-These are run in the terminal from the repo directory that contains `Gruntfile.js`:
-* `grunt build` runs [ESLint](https://eslint.org/), unit tests, cleans up `./dist/`, minifies source, and creates finished files in the `./dist/` directory
-* `grunt clean` cleans the `./dist/` directory
+*  `npm run test` runs [ESLint](https://eslint.org/) and unit tests once

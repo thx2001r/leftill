@@ -1,4 +1,4 @@
-const leftill = require('../src/js/leftill')
+const leftill = require('../src/js/lt_recurrence')
 
 describe('One-Time Non-Recurring', () => {
   const Once = {

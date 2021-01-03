@@ -23,7 +23,7 @@ The structure of the recurrence configuration data is:
 		type: string,			("Income" or "Expense")
 		recurrence: string,		(this is the recurrence parser to use)
 		recurenceStart: string,		(short date format: "MM/DD/YYYY" zero padded MM and DD)
-		weeksRecurrence: integer,	(optional, for weekly parser: default is every week ... 2 is every 2 weeks, etc.)
+		weeksRecurrence: integer,	(optional, for weekly parser: default is every 1 week)
 	}
 ## Pre-requisities:
 * [Node.js](https://nodejs.org/) to be able to use the Node Package Manager (NPM)

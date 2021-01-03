@@ -2,9 +2,9 @@
 A simple way to track how much money is left until your next paycheck.
 
 ## Short-term goals:
-* Configuration of planned/recurring income and expenses
-* Parsing of recurrences that occur within a date range (pay period until next paycheck)
-* Parsing of overrides to planned income and expenses
+* (DONE) Configuration of planned/recurring income and expenses
+* (DONE) Parsing of recurrences that occur within a date range (pay period until next paycheck)
+* (DONE) Parsing of overrides to planned income and expenses
 * Figuring out a current cleared balance at a point in time, akin to a "T" account in accounting terms
   * This is based on planned/recurring income and expenses as well as unplanned spending
 
@@ -23,22 +23,23 @@ The structure of the recurrence configuration data is:
 		type: string,			("Income" or "Expense")
 		recurrence: string,		(this is the recurrence parser to use)
 		recurenceStart: string,		(short date format: "MM/DD/YYYY" zero padded MM and DD)
-		weeksRecurrence: integer,	(optional, for weekly parser: default is every 1 week)
+		weeksRecurrence: integer	(optional, for weekly parser: default is every 1 week)
 	}
+
 ## Pre-requisities:
 * [Node.js](https://nodejs.org/) to be able to use the Node Package Manager (NPM)
 * [Git](https://git-scm.com/) distributed version control system
 
 ## Getting started:
-1. Open the terminal
+1. Open a terminal/command prompt
 2. `cd` to the path you want to clone this repo into
 3. Clone this repo via:
     * HTTPS: `git clone https://github.com/thx2001r/leftill.git`
     * SSH: `git clone git@github.com:thx2001r/leftill.git`
 4. `cd leftill`
-5. Download and install related packages `npm install`
+5. Download and install packages `npm install`
 
 ## NPM Scripts:
-The are run in the terminal from the repo directory or in your IDE:
+They are run in the terminal from the repo directory or in your IDE:
 *  `npm run watch` watches for changes and runs unit tests stored in the `./__tests__/` directory
 *  `npm run test` runs [ESLint](https://eslint.org/) and unit tests once

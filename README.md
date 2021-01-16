@@ -40,6 +40,9 @@ The structure of the recurrence configuration data is:
 5. Download and install packages `npm install`
 
 ## NPM Scripts:
-They are run in the terminal from the repo directory or in your IDE:
+They are run in the terminal (PowerShell in Windows) from the repo directory or in your IDE:
 *  `npm run watch` watches for changes and runs unit tests stored in the `./__tests__/` directory
 *  `npm run test` runs [ESLint](https://eslint.org/) and unit tests once
+*  `npm run clean` cleans the `./dist/` directory
+*  `npm run minify` minifies and uglifies `./src/js/*.js` and prepends banner into `./dist/leftill.min.js`
+*  `npm run build` runs test, clean, and minify scripts

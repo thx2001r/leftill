@@ -4,7 +4,10 @@
 	"version": "0.1.1",
 	"scripts": {
 		"watch": "jest --watch",
-		"test": "eslint src/js && jest"
+		"test": "eslint src/js && jest",
+		"clean": "rm -rf dist",
+		"minify": "mkdir -p dist/js && uglifyjs src/js/*.js --config-file minify-options.json > dist/js/leftill.min.js",
+		"build": "npm run test && npm run clean && npm run minify"
 	},
 	"devDependencies": {
 		"eslint": "^7.17.0",
@@ -12,7 +15,8 @@
 		"eslint-plugin-import": "^2.22.1",
 		"eslint-plugin-node": "^11.1.0",
 		"eslint-plugin-promise": "^4.2.1",
-		"jest": "^26.6.3"
+		"jest": "^26.6.3",
+		"uglify-js": "^3.12.4"
 	},
 	"repository": {
 		"type": "git",

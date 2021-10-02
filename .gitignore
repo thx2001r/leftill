@@ -1,8 +1,6 @@
 # Node.js, dev, and Dependency directories
-.vscode/
 dist/
 node_modules/
-package-lock.json
 
 ### macOS - https://www.gitignore.io/api/macos ###
 .DS_Store
@@ -24,6 +22,7 @@ Temporary Items
 
 ### Windows - https://www.gitignore.io/api/windows ###
 Thumbs.db
+Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 *.stackdump

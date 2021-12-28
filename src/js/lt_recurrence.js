@@ -13,14 +13,14 @@ function ConfigMatches (start, end, config) {
   const rangeStart = new Date(start)
   const rangeEnd = new Date(end)
 
-  if (rangeStart > 0 && rangeEnd > 0 && rangeStart <= rangeEnd && typeof config === 'object') {
+  if (rangeStart.getTime() > 0 && rangeEnd.getTime() > 0 && rangeStart <= rangeEnd && typeof config === 'object') {
     const configMatches = {}
     const keys = Object.keys(config)
 
     // Loop through possible matching configurations
     for (let i = 0; i < keys.length; i++) {
       // Parse config if required parameters present
-      if (new Date(config[keys[i]].recurrenceStart) > 0) {
+      if (new Date(config[keys[i]].recurrenceStart).getTime() > 0) {
         let configMatch = []
 
         // Route configuration to appropriate configuration parser
@@ -69,7 +69,7 @@ function DaysInMonth (month, year) {
     30,
     31
   ]
-  return (month && year) ? daysInMonth[month] : false
+  return (month && year) ? daysInMonth[month] : 0
 }
 
 // Return a JavaScript date as a string: MM/DD/YYYY (zero padded)
@@ -92,7 +92,7 @@ function OnceParser (rangeStart, rangeEnd, config) {
     // Add matching recurrence
     return [recurrenceStart]
   }
-  return false
+  return []
 }
 
 // Parse yearly recurrences for matches within a date range
@@ -121,7 +121,7 @@ function YearlyParser (rangeStart, rangeEnd, config) {
     }
     return recurrenceMatches
   }
-  return false
+  return []
 }
 
 // Parse monthly recurrences for matches within a date range
@@ -159,15 +159,15 @@ function MonthlyParser (rangeStart, rangeEnd, config) {
     }
     return recurrenceMatches
   }
-  return false
+  return []
 }
 
 // Parse weekly recurrences for matches within a date range
 function WeeklyParser (rangeStart, rangeEnd, config) {
   const recurrenceStart = new Date(config.recurrenceStart)
   const recurrenceMilliseconds = (Math.floor(config.weeksRecurrence) > 0 ? config.weeksRecurrence : 1) * 6048e5
-  const recurrencesToRangeStart = (rangeStart - recurrenceStart) / recurrenceMilliseconds
-  const recurrencesToRangeEnd = (rangeEnd - recurrenceStart) / recurrenceMilliseconds
+  const recurrencesToRangeStart = (rangeStart.getTime() - recurrenceStart.getTime()) / recurrenceMilliseconds
+  const recurrencesToRangeEnd = (rangeEnd.getTime() - recurrenceStart.getTime()) / recurrenceMilliseconds
   const rangeStartMatch = recurrencesToRangeStart === Math.floor(recurrencesToRangeStart)
   const rangeEndMatch = recurrencesToRangeEnd === Math.floor(recurrencesToRangeEnd)
   const spanningMatch = (Math.floor(recurrencesToRangeEnd) - Math.floor(recurrencesToRangeStart) > 0)
@@ -186,7 +186,7 @@ function WeeklyParser (rangeStart, rangeEnd, config) {
     }
     return recurrenceMatches
   }
-  return false
+  return []
 }
 
 // Parse exceptions to a config for a given date range

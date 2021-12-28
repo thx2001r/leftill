@@ -236,7 +236,7 @@ describe('Recurrence Matches in Configured Range', () => {
 
 describe('How many days in a given month and year', () => {
   it('is called with no parameters', () => {
-    expect(leftill.DaysInMonth()).toEqual(false)
+    expect(leftill.DaysInMonth()).toEqual(0)
   })
 
   it('is the number of days in November', () => {

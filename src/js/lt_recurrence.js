@@ -106,15 +106,16 @@ function YearlyParser (rangeStart, rangeEnd, config) {
     const candidateMonth = recurrenceStart.getMonth()
     const candidateDate = recurrenceStart.getDate()
 
-    // Loop through possible matches in range -- Feb 29th should be handled upstream in configuration
+    // Loop through possible matches in range
     for (
       let candidateYear = rangeStartYear <= recurrenceStartYear ? recurrenceStartYear : rangeStartYear;
       candidateYear <= rangeEnd.getFullYear();
       candidateYear++
     ) {
       const recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate)
+      const daysInCandidateMonth = DaysInMonth(candidateMonth, candidateYear)
 
-      if (rangeStart <= recurrenceCandidate && rangeEnd >= recurrenceCandidate) {
+      if (rangeStart <= recurrenceCandidate && rangeEnd >= recurrenceCandidate && candidateDate <= daysInCandidateMonth) {
         // Add any matching recurrences
         recurrenceMatches.push(recurrenceCandidate)
       }

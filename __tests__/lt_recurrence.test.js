@@ -45,6 +45,10 @@ describe('Yearly Recurrence', () => {
   const Yearly = {
     1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', recurrence: 'Yearly', recurrenceStart: '03/26/2019' }
   }
+  const YearlyLeapYears = {
+    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', recurrence: 'Yearly', recurrenceStart: '02/29/2020' }
+  }
+
   const YearlyBroken = {
     1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', recurrence: 'Yearly', recurrenceStart: 'Something Broken!' }
   }
@@ -83,6 +87,14 @@ describe('Yearly Recurrence', () => {
 
   it('is a range spanning start date & first recurrence', () => {
     expect(leftill.ConfigMatches('01/01/2018', '12/31/2020', Yearly)).toEqual({ 1: [new Date('03/26/2019'), new Date('03/26/2020')] })
+  })
+
+  it('is a range spanning multiple leap years', () => {
+    expect(leftill.ConfigMatches('03/01/2020', '03/01/2028', YearlyLeapYears)).toEqual({ 1: [new Date('02/29/2024'), new Date('02/29/2028')] })
+  })
+
+  it('is a range spanning no leap years', () => {
+    expect(leftill.ConfigMatches('03/01/2020', '03/01/2023', YearlyLeapYears)).toEqual(false)
   })
 })
 

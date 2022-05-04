@@ -26,7 +26,7 @@ The structure of the recurrence configuration data is:
 		weeksRecurrence: integer	(optional, for weekly parser: default is every 1 week)
 	}
 
-## Pre-requisities:
+## Prerequisites:
 * [Node.js](https://nodejs.org/) to be able to use the Node Package Manager (NPM)
 * [Git](https://git-scm.com/) distributed version control system
 

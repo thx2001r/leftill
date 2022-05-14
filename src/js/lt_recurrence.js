@@ -3,7 +3,7 @@
 +--------------------------------------------------------------------- */
 
 // Parse each config item for matches within a date range
-export function ConfigMatches (start, end, config) {
+function ConfigMatches (start, end, config) {
   /*
     Note on string date formats: JavaScript Short Dates (MM/DD/YYYY -- zero padded)
     convert to midnight on the date in the current time zone.  Other string date
@@ -187,7 +187,7 @@ export function ConfigMatches (start, end, config) {
 }
 
 // Determine how many days in a given month/year
-export function DaysInMonth (month, year) {
+function DaysInMonth (month, year) {
   const daysInMonth = [
     31,
     year % 4 === 0 && !(year % 100 === 0 && year % 400 !== 0) ? 29 : 28,
@@ -209,8 +209,14 @@ export function DaysInMonth (month, year) {
 }
 
 // Return a JavaScript date as a string: MM/DD/YYYY (zero padded)
-export function DateToString (dateObject) {
+function DateToString (dateObject) {
   return (dateObject && dateObject.getTime() > 0 && typeof dateObject === 'object')
     ? [('00' + (dateObject.getMonth() + 1)).slice(-2), ('00' + dateObject.getDate()).slice(-2), dateObject.getFullYear()].join('/')
     : ''
 }
+
+/* ---------------------------------------------------------------------+
+|  Exports                                                              |
++--------------------------------------------------------------------- */
+
+export { ConfigMatches, DaysInMonth, DateToString }

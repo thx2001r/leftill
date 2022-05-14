@@ -15,10 +15,6 @@
 		"roots": [
 			"<rootDir>/src",
 			"<rootDir>/__tests__"
-		],
-		"moduleFileExtensions": [
-			"js",
-			"mjs"
 		]
 	},
 	"devDependencies": {

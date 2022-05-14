@@ -1,4 +1,4 @@
-import * as recurrence from '../src/js/lt_recurrence.mjs'
+import * as recurrence from '../src/js/lt_recurrence'
 
 describe('One-Time Non-Recurring', () => {
   const Once = {

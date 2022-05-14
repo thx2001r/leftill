@@ -203,14 +203,14 @@ export function DaysInMonth (month, year) {
     31
   ]
 
-  return (month && year)
+  return (month >= 0 && month <= 11 && Number.isInteger(month) && year >= 0 && Number.isInteger(year))
     ? daysInMonth[month]
     : 0
 }
 
 // Return a JavaScript date as a string: MM/DD/YYYY (zero padded)
 export function DateToString (dateObject) {
-  return (typeof dateObject === 'object')
+  return (dateObject && dateObject.getTime() > 0 && typeof dateObject === 'object')
     ? [('00' + (dateObject.getMonth() + 1)).slice(-2), ('00' + dateObject.getDate()).slice(-2), dateObject.getFullYear()].join('/')
     : ''
 }

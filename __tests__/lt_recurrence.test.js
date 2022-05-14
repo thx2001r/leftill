@@ -251,6 +251,22 @@ describe('How many days in a given month and year', () => {
     expect(recurrence.DaysInMonth()).toEqual(0)
   })
 
+  it('is called with an invalid negative month number', () => {
+    expect(recurrence.DaysInMonth(-12, 2019)).toEqual(0)
+  })
+
+  it('is called with an invalid positive month number', () => {
+    expect(recurrence.DaysInMonth(12, 2019)).toEqual(0)
+  })
+
+  it('is called with an invalid negative year number', () => {
+    expect(recurrence.DaysInMonth(11, -1)).toEqual(0)
+  })
+
+  it('is the number of days in January', () => {
+    expect(recurrence.DaysInMonth(0, 2019)).toEqual(31)
+  })
+
   it('is the number of days in November', () => {
     expect(recurrence.DaysInMonth(10, 2019)).toEqual(30)
   })

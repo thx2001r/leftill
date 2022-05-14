@@ -1,4 +1,4 @@
-const recurrence = require('../src/js/lt_recurrence')
+import * as recurrence from '../src/js/lt_recurrence.mjs'
 
 describe('One-Time Non-Recurring', () => {
   const Once = {

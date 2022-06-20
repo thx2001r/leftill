@@ -37,7 +37,7 @@ The structure of the recurrence configuration data is:
     * HTTPS: `git clone https://github.com/thx2001r/leftill.git`
     * SSH: `git clone git@github.com:thx2001r/leftill.git`
 4. `cd leftill`
-5. Download and install packages `npm install`
+5. Download and install packages `npm install` or `yarn install`
 
 ## NPM Scripts:
 They are run in the terminal (PowerShell in Windows) from the repo directory or in your IDE:

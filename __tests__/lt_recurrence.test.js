@@ -2,10 +2,10 @@ import * as recurrence from '../src/js/lt_recurrence'
 
 describe('One-Time Non-Recurring', () => {
   const Once = {
-    1: { amount: 100, description: 'Pre-school deposit', type: 'Expense', recurrence: 'Once', recurrenceStart: '04/04/2019' }
+    1: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: '04/04/2019' }
   }
   const OnceBroken = {
-    1: { amount: 100, description: 'Pre-school deposit', type: 'Expense', recurrence: 'Once', recurrenceStart: 'Something Broken!' }
+    1: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: 'Something Broken!' }
   }
 
   it('is an invalid configuration', () => {
@@ -43,14 +43,14 @@ describe('One-Time Non-Recurring', () => {
 
 describe('Yearly Recurrence', () => {
   const Yearly = {
-    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', recurrence: 'Yearly', recurrenceStart: '03/26/2019' }
+    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: '03/26/2019' }
   }
   const YearlyLeapYears = {
-    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', recurrence: 'Yearly', recurrenceStart: '02/29/2020' }
+    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: '02/29/2020' }
   }
 
   const YearlyBroken = {
-    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', recurrence: 'Yearly', recurrenceStart: 'Something Broken!' }
+    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: 'Something Broken!' }
   }
 
   it('is an invalid configuration', () => {
@@ -100,13 +100,13 @@ describe('Yearly Recurrence', () => {
 
 describe('Monthly Recurrence', () => {
   const Monthly = {
-    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', recurrenceStart: '04/01/2019' }
+    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: '04/01/2019' }
   }
   const MonthlyBroken = {
-    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', recurrenceStart: 'Something Broken!' }
+    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: 'Something Broken!' }
   }
   const MonthlyEdgeDay = {
-    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', recurrenceStart: '03/31/2019' }
+    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: '03/31/2019' }
   }
 
   it('is an invalid configuration', () => {
@@ -152,10 +152,10 @@ describe('Monthly Recurrence', () => {
 
 describe('Bi-weekly Recurrence', () => {
   const BiWeekly = {
-    1: { amount: 500, description: 'Paycheck', type: 'Income', recurrence: 'Weekly', weeksRecurrence: 2, recurrenceStart: '04/04/2019' }
+    1: { amount: 500, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Weekly', weeksRecurrence: 2, recurrenceStart: '04/04/2019' }
   }
   const BiWeeklyBroken = {
-    1: { amount: 500, description: 'Paycheck', type: 'Income', recurrence: 'Weekly', weeksRecurrence: 'a', recurrenceStart: 'Something Broken!' }
+    1: { amount: 500, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Weekly', weeksRecurrence: 'a', recurrenceStart: 'Something Broken!' }
   }
 
   it('is an invalid configuration', () => {
@@ -205,7 +205,7 @@ describe('Bi-weekly Recurrence', () => {
 
 describe('Exceptions to Recurrence', () => {
   const Exceptions = {
-    1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', recurrenceStart: '05/01/2019', exceptions: ['05/01/2020', '05/01/2022'] }
+    1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', automatic: false, recurrenceStart: '05/01/2019', exceptions: ['05/01/2020', '05/01/2022'] }
   }
 
   it('is a range whose execptions wipe out matches', () => {
@@ -219,10 +219,10 @@ describe('Exceptions to Recurrence', () => {
 
 describe('Recurrence Matches in Configured Range', () => {
   const RecurrenceParser = {
-    1: { amount: 500, description: 'Paycheck', type: 'Income', recurrence: 'Weekly', weeksRecurrence: 2, recurrenceStart: '04/04/2019' },
-    2: { amount: 100, description: 'Pre-school deposit', type: 'Expense', recurrence: 'Once', recurrenceStart: '04/04/2019' },
-    3: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', recurrence: 'Yearly', recurrenceStart: '03/26/2019' },
-    4: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', recurrenceStart: '04/01/2019' }
+    1: { amount: 500, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Weekly', weeksRecurrence: 2, recurrenceStart: '04/04/2019' },
+    2: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: '04/04/2019' },
+    3: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: '03/26/2019' },
+    4: { amount: 3000.01, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Monthly', recurrenceStart: '04/01/2019' }
   }
 
   it('is called with no parameters', () => {

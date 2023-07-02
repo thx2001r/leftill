@@ -28,7 +28,7 @@ describe('One-Time Non-Recurring', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '04/05/2019', Once)).toEqual({ 1: [new Date('04/04/2019')] })
   })
 
-  it('is a range closely spannning a start date', () => {
+  it('is a range closely spanning a start date', () => {
     expect(recurrence.ConfigMatches('04/03/2019', '04/05/2019', Once)).toEqual({ 1: [new Date('04/04/2019')] })
   })
 
@@ -73,7 +73,7 @@ describe('Yearly Recurrence', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '04/05/2019', Yearly)).toEqual({ 1: [new Date('03/26/2019')] })
   })
 
-  it('is a range closely spannning a start date', () => {
+  it('is a range closely spanning a start date', () => {
     expect(recurrence.ConfigMatches('03/25/2019', '03/27/2019', Yearly)).toEqual({ 1: [new Date('03/26/2019')] })
   })
 
@@ -129,7 +129,7 @@ describe('Monthly Recurrence', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '04/05/2019', Monthly)).toEqual({ 1: [new Date('04/01/2019')] })
   })
 
-  it('is a range closely spannning a start date', () => {
+  it('is a range closely spanning a start date', () => {
     expect(recurrence.ConfigMatches('03/31/2019', '04/02/2019', Monthly)).toEqual({ 1: [new Date('04/01/2019')] })
   })
 
@@ -178,7 +178,7 @@ describe('Bi-weekly Recurrence', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '04/05/2019', BiWeekly)).toEqual({ 1: [new Date('04/04/2019')] })
   })
 
-  it('is a range closely spannning a start date', () => {
+  it('is a range closely spanning a start date', () => {
     expect(recurrence.ConfigMatches('04/03/2019', '04/05/2019', BiWeekly)).toEqual({ 1: [new Date('04/04/2019')] })
   })
 
@@ -208,7 +208,7 @@ describe('Exceptions to Recurrence', () => {
     1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', automatic: false, recurrenceStart: '05/01/2019', exceptions: ['05/01/2020', '05/01/2022'] }
   }
 
-  it('is a range whose execptions wipe out matches', () => {
+  it('is a range whose exceptions wipe out matches', () => {
     expect(recurrence.ConfigMatches('04/30/2020', '05/02/2020', Exceptions)).toEqual({})
   })
 

@@ -5,10 +5,10 @@
 	"type": "module",
 	"scripts": {
 		"watch": "vitest --reporter=basic",
-		"test": "vitest run --reporter=basic",
+		"test": "eslint src/js/* && vitest run --reporter=basic",
 		"clean": "rm -rf dist",
 		"minify": "mkdir -p dist/js && uglifyjs src/js/*.*js --config-file minify-options.json > dist/js/leftill.min.js",
-		"build": "eslint src/js/* && npm run test && npm run clean && npm run minify"
+		"build": "npm run test && npm run clean && npm run minify"
 	},
 	"devDependencies": {
 		"eslint": "^7.32.0",

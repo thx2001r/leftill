@@ -1,3 +1,4 @@
+import { expect, describe, it } from 'vitest'
 import * as recurrence from '../src/js/lt_recurrence'
 
 describe('One-Time Non-Recurring', () => {

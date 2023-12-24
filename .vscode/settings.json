@@ -3,7 +3,7 @@
 		"javascript"
 	],
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true
+		"source.fixAll.eslint": "always"
 	},
 	"js/ts.implicitProjectConfig.checkJs": true
 }

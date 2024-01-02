@@ -208,10 +208,10 @@ function DaysInMonth (month, year) {
     : 0
 }
 
-// Return a JavaScript date as a string: MM/DD/YYYY (zero padded)
+// Return a JavaScript date as a string: MM/DD/YYYY format (zero padded)
 function DateToString (dateObject) {
   return (dateObject && dateObject.getTime() > 0 && typeof dateObject === 'object')
-    ? [('00' + (dateObject.getMonth() + 1)).slice(-2), ('00' + dateObject.getDate()).slice(-2), dateObject.getFullYear()].join('/')
+    ? dateObject.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
     : ''
 }
 

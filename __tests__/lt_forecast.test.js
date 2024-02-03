@@ -8,24 +8,6 @@ describe('Linear Regression', () => {
     { x: 4, y: 70 }
   ]
 
-  const dataNoSlope = [
-    { x: 1, y: 100 },
-    { x: 2, y: 100 },
-    { x: 4, y: 100 }
-  ]
-
-  const badData = [
-    { x: 'a', y: 100 },
-    { x: 2, y: null },
-    { x: [], y: 70 }
-  ]
-
-  const invalidKeys = [
-    { a: 1, b: 100 },
-    { x: 2, y: 90 },
-    { a: 4, b: 70 }
-  ]
-
   it('is a forecast of y with a targetX value provided', () => {
     expect(forecast.LinearRegression(data, 3)).toEqual({ r: -1, rSquared: 1, slope: -10, x: null, y: 80, yIntercept: 110 })
   })
@@ -34,29 +16,55 @@ describe('Linear Regression', () => {
     expect(forecast.LinearRegression(data, false, 80)).toEqual({ r: -1, rSquared: 1, slope: -10, x: 3, y: null, yIntercept: 110 })
   })
 
-  it('is a forecast that can\'t be calculated due to targetX AND targetY passed', () => {
-    expect(forecast.LinearRegression(data, 3, 80)).toEqual({ r: -1, rSquared: 1, slope: -10, x: null, y: null, yIntercept: 110 })
+  it('is a forecast of x and y with a targetX AND a 0 targetY passed', () => {
+    expect(forecast.LinearRegression(data, 3, 0)).toEqual({ r: -1, rSquared: 1, slope: -10, x: 11, y: 80, yIntercept: 110 })
   })
 
-  it('is a forecast that can\'t be calculated due to targetX AND a falsey targetY passed', () => {
-    expect(forecast.LinearRegression(data, 3, 0)).toEqual({ r: -1, rSquared: 1, slope: -10, x: null, y: null, yIntercept: 110 })
+  it('is a forecast of x and y with a 0 targetX AND a targetY passed', () => {
+    expect(forecast.LinearRegression(data, 0, 80)).toEqual({ r: -1, rSquared: 1, slope: -10, x: 3, y: 110, yIntercept: 110 })
   })
 
   it('is a forecast with only data passed to it', () => {
     expect(forecast.LinearRegression(data)).toEqual({ r: -1, rSquared: 1, slope: -10, x: null, y: null, yIntercept: 110 })
   })
 
+  const dataNoSlope = [
+    { x: 1, y: 100 },
+    { x: 2, y: 100 },
+    { x: 4, y: 100 }
+  ]
+
   it('is a forecast with only data passed to it and a slope of 0', () => {
     expect(forecast.LinearRegression(dataNoSlope)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
   })
 
-  it('is a forecast that can\'t be calculated due to a slope of 0', () => {
+  it('is a forecast of y with a targetX value provided that can\'t be calculated due to a slope of 0', () => {
     expect(forecast.LinearRegression(dataNoSlope, 3)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
   })
+
+  it('is a forecast of x with a targetY value provided that can\'t be calculated due to a slope of 0', () => {
+    expect(forecast.LinearRegression(dataNoSlope, false, 80)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
+  })
+
+  it('is a forecast of x and y with a targetX AND a targetY passed that can\'t be calculated due to a slope of 0', () => {
+    expect(forecast.LinearRegression(dataNoSlope, 3, 80)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
+  })
+
+  const badData = [
+    { x: 'a', y: 100 },
+    { x: 2, y: null },
+    { x: [], y: 70 }
+  ]
 
   it('is an invalid set of values provided', () => {
     expect(forecast.LinearRegression(badData, 3, 80)).toEqual({})
   })
+
+  const invalidKeys = [
+    { a: 1, b: 100 },
+    { x: 2, y: 90 },
+    { a: 4, b: 70 }
+  ]
 
   it('is an invalid set of object keys provided', () => {
     expect(forecast.LinearRegression(invalidKeys, 3, 80)).toEqual({})

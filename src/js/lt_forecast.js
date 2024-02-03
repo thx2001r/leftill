@@ -10,12 +10,7 @@ function LinearRegression (data, targetX, targetY) {
     targetY: (optional) number used to calculate x,targetY coordinate
   */
   const response = {}
-  const isValidData = Array.isArray(data) &&
-    data.length > 0 &&
-    data.every(a =>
-      typeof a.x === 'number' &&
-      typeof a.y === 'number'
-    )
+  const isValidData = ValidateData(data)
 
   if (isValidData) {
     const dataToSum = data.map(PrepareDataToSum)
@@ -37,6 +32,16 @@ function LinearRegression (data, targetX, targetY) {
   }
 
   return response
+}
+
+// Validate input data set for linear regression
+function ValidateData (data) {
+  return Array.isArray(data) &&
+      data.length > 0 &&
+      data.every(a =>
+        typeof a.x === 'number' &&
+        typeof a.y === 'number'
+      )
 }
 
 // Prepare data series to sum it for regression

@@ -223,27 +223,23 @@ describe('Exceptions to Recurrence', () => {
     1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', automatic: false, recurrenceStart: '05/01/2019', exceptions: [new Date('05/01/2020').getTime(), '05/01/2022', 'bob', [], 123, true, {}, { a: true }] }
   }
 
-  it('is a range whose partially invalid exceptions do not wipe out matches', () => {
-    expect(recurrence.ConfigMatches('04/30/2020', '05/02/2020', ExceptionsBroken)).toEqual({ 1: [new Date('05/01/2020')] })
-  })
-
   it('is a range containing partially invalid exceptions to recurrence', () => {
-    expect(recurrence.ConfigMatches('04/30/2019', '05/02/2023', ExceptionsBroken)).toEqual({ 1: [new Date('05/01/2019'), new Date('05/01/2020'), new Date('05/01/2021'), new Date('05/01/2023')] })
+    expect(recurrence.ConfigMatches('04/30/2019', '05/02/2023', ExceptionsBroken)).toEqual({})
   })
 
   const ExceptionsInvalid = {
-    1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', automatic: false, recurrenceStart: '05/01/2019', exceptions: {} }
+    1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', automatic: false, recurrenceStart: '05/01/2019', exceptions: true }
   }
 
-  it('is a range whose invalid exceptions do not wipe out matches', () => {
-    expect(recurrence.ConfigMatches('04/30/2019', '05/02/2023', ExceptionsInvalid)).toEqual({ 1: [new Date('05/01/2019'), new Date('05/01/2020'), new Date('05/01/2021'), new Date('05/01/2022'), new Date('05/01/2023')] })
+  it('is a range containing invalid exceptions', () => {
+    expect(recurrence.ConfigMatches('04/30/2019', '05/02/2023', ExceptionsInvalid)).toEqual({})
   })
 })
 
 describe('Recurrence Matches in Configured Range', () => {
   const RecurrenceParser = {
     1: { amount: 500, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Weekly', weeksRecurrence: 2, recurrenceStart: '04/04/2019' },
-    2: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: '04/04/2019' },
+    id_string: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: '04/04/2019' },
     3: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: '03/26/2019' },
     4: { amount: 3000.01, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Monthly', recurrenceStart: '04/01/2019' }
   }
@@ -256,16 +252,24 @@ describe('Recurrence Matches in Configured Range', () => {
     expect(recurrence.ConfigMatches('not a date', false, 42)).toEqual({})
   })
 
+  it('is a range with an invalid date (2021 is not a leap year)', () => {
+    expect(recurrence.ConfigMatches('04/05/2019', '02/29/2021', RecurrenceParser)).toEqual({})
+  })
+
+  it('is a range with an invalid short date format', () => {
+    expect(recurrence.ConfigMatches('04/05/2019', '2/28/2021', RecurrenceParser)).toEqual({})
+  })
+
   it('is a range with an end date before start date', () => {
     expect(recurrence.ConfigMatches('04/05/2019', '04/03/2019', RecurrenceParser)).toEqual({})
   })
 
   it('is a range beginning and ending on a start date', () => {
-    expect(recurrence.ConfigMatches('04/04/2019', '04/04/2019', RecurrenceParser)).toEqual({ 1: [new Date('04/04/2019')], 2: [new Date('04/04/2019')] })
+    expect(recurrence.ConfigMatches('04/04/2019', '04/04/2019', RecurrenceParser)).toEqual({ 1: [new Date('04/04/2019')], id_string: [new Date('04/04/2019')] })
   })
 
   it('is a range ending on start date', () => {
-    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', RecurrenceParser)).toEqual({ 1: [new Date('04/04/2019')], 2: [new Date('04/04/2019')], 3: [new Date('03/26/2019')], 4: [new Date('04/01/2019')] })
+    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', RecurrenceParser)).toEqual({ 1: [new Date('04/04/2019')], id_string: [new Date('04/04/2019')], 3: [new Date('03/26/2019')], 4: [new Date('04/01/2019')] })
   })
 })
 

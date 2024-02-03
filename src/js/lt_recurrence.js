@@ -11,17 +11,21 @@ function ConfigMatches (start, end, config) {
     objects and should be avoided.
   */
   const configMatches = {}
-  const rangeStart = new Date(start)
-  const rangeEnd = new Date(end)
+  const rangeStart = ValidateShortDate(start) ? new Date(start) : false
+  const rangeEnd = ValidateShortDate(end) ? new Date(end) : false
+  const isValidRange = rangeStart && rangeEnd && rangeStart <= rangeEnd
 
-  if (rangeStart.getTime() > 0 && rangeEnd.getTime() > 0 && rangeStart <= rangeEnd && typeof config === 'object') {
+  if (isValidRange && typeof config === 'object') {
     const keys = Object.keys(config)
 
     // Loop through possible matching configurations
     for (let i = 0; i < keys.length; i++) {
-      // Parse config if required parameters present
-      if (new Date(config[keys[i]].recurrenceStart).getTime() > 0) {
+      const isValidConfig = ValidateConfig(config[keys[i]])
+
+      // Parse valid configs
+      if (isValidConfig) {
         let configMatch = []
+        const recurrenceStart = new Date(config[keys[i]].recurrenceStart)
 
         // Route configuration to appropriate recurrence pattern parser
         switch (config[keys[i]].recurrence) {
@@ -29,36 +33,36 @@ function ConfigMatches (start, end, config) {
             configMatch = OnceParser(
               rangeStart,
               rangeEnd,
-              new Date(config[keys[i]].recurrenceStart)
+              recurrenceStart
             )
             break
           case 'Yearly':
             configMatch = YearlyParser(
               rangeStart,
               rangeEnd,
-              new Date(config[keys[i]].recurrenceStart)
+              recurrenceStart
             )
             break
           case 'Monthly':
             configMatch = MonthlyParser(
               rangeStart,
               rangeEnd,
-              new Date(config[keys[i]].recurrenceStart)
+              recurrenceStart
             )
             break
           case 'Weekly':
             configMatch = WeeklyParser(
               rangeStart,
               rangeEnd,
-              new Date(config[keys[i]].recurrenceStart),
-              Math.floor(config[keys[i]].weeksRecurrence)
+              recurrenceStart,
+              config[keys[i]].weeksRecurrence
             )
             break
         }
 
         if (configMatch.length > 0) {
           // Parse any exceptions defined in the configuration
-          if (config[keys[i]].exceptions && Array.isArray(config[keys[i]].exceptions)) configMatch = ExceptionsParser(configMatch, config[keys[i]].exceptions)
+          if (config[keys[i]].exceptions) configMatch = ExceptionsParser(configMatch, config[keys[i]].exceptions)
 
           // Add any remaining matching dates for the configuration
           if (configMatch.length > 0) configMatches[keys[i]] = configMatch
@@ -68,16 +72,57 @@ function ConfigMatches (start, end, config) {
   }
   return configMatches
 
-  /* ---------------------------------------------------------------------+
-  |  Recurrence pattern parsers                                           |
-  +--------------------------------------------------------------------- */
+  // Validate configuration for recurrence matching
+  function ValidateConfig (config) {
+    return config &&
+    typeof config.amount === 'number' &&
+    typeof config.description === 'string' &&
+    typeof config.type === 'string' &&
+    config.type.match(/^(Income|Expense)$/) &&
+    typeof config.automatic === 'boolean' &&
+    typeof config.recurrence === 'string' &&
+    config.recurrence.match(/^(Once|Yearly|Monthly|Weekly)$/) &&
+    typeof config.recurrenceStart === 'string' &&
+    ValidateShortDate(config.recurrenceStart) &&
+    (
+      !config.weeksRecurrence ||
+      Number.isInteger(config.weeksRecurrence)
+    ) &&
+    (
+      !config.exceptions ||
+      (
+        Array.isArray(config.exceptions) &&
+        config.exceptions.length > 0 &&
+        config.exceptions.every(a =>
+          typeof a === 'string' &&
+          ValidateShortDate(a)
+        )
+      )
+    )
+  }
+
+  // Validate short date string format MM/DD/YYYY
+  function ValidateShortDate (shortDate) {
+    const checked = shortDate ? shortDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/) : false
+    return checked &&
+    typeof shortDate === 'string' &&
+    parseInt(checked[1]) > 0 &&
+    parseInt(checked[1]) <= 12 &&
+    parseInt(checked[2]) > 0 &&
+    parseInt(checked[2]) <= DaysInMonth(parseInt(checked[1]) - 1, parseInt(checked[3])) &&
+    new Date(shortDate).getTime() > 0
+  }
+
+  /* -------------------------------------------------------------------+
+  |  Recurrence pattern parsers                                         |
+  +------------------------------------------------------------------- */
 
   // Parse a one-time date for matches within a date range
   function OnceParser (rangeStart, rangeEnd, recurrenceStart) {
     const recurrenceMatches = []
 
     if (rangeStart <= recurrenceStart && rangeEnd >= recurrenceStart) {
-      // Add matching recurrence
+    // Add matching recurrence
       recurrenceMatches.push(recurrenceStart)
     }
     return recurrenceMatches
@@ -103,7 +148,7 @@ function ConfigMatches (start, end, config) {
         const daysInCandidateMonth = DaysInMonth(candidateMonth, candidateYear)
 
         if (rangeStart <= recurrenceCandidate && rangeEnd >= recurrenceCandidate && candidateDate <= daysInCandidateMonth) {
-          // Add any matching recurrences
+        // Add any matching recurrences
           recurrenceMatches.push(recurrenceCandidate)
         }
       }
@@ -126,7 +171,7 @@ function ConfigMatches (start, end, config) {
         candidateMonth++
       ) {
         if (candidateMonth > 11) {
-          // Roll over candidate month to January of the next year
+        // Roll over candidate month to January of the next year
           candidateMonth = 0
           candidateYear++
         }
@@ -137,7 +182,7 @@ function ConfigMatches (start, end, config) {
         const recurrenceCandidate = new Date(candidateYear, candidateMonth, candidateDate)
 
         if (rangeEnd >= recurrenceCandidate) {
-          // Add any matching recurrences
+        // Add any matching recurrences
           recurrenceMatches.push(recurrenceCandidate)
         } else {
           break
@@ -158,13 +203,13 @@ function ConfigMatches (start, end, config) {
     const spanningMatch = (Math.floor(recurrencesToRangeEnd) - Math.floor(recurrencesToRangeStart) > 0)
 
     if (recurrencesToRangeEnd >= 0 && (rangeStartMatch || rangeEndMatch || spanningMatch)) {
-      // Loop through possible matches in range, on or after the configured recurrence start date
+    // Loop through possible matches in range, on or after the configured recurrence start date
       for (
         let i = recurrencesToRangeStart <= 0 ? 0 : rangeStartMatch ? recurrencesToRangeStart : Math.ceil(recurrencesToRangeStart);
         i <= (rangeEndMatch ? recurrencesToRangeEnd : Math.floor(recurrencesToRangeEnd));
         i++
       ) {
-        // Add any matching recurrences
+      // Add any matching recurrences
         recurrenceMatches.push(new Date(recurrenceStart.getTime() + (i * recurrenceMilliseconds)))
       }
     }
@@ -178,13 +223,17 @@ function ConfigMatches (start, end, config) {
     // Loop through matches and exclude exceptions from matches
     for (let i = 0; i < matches.length; i++) {
       if (exceptions.indexOf(DateToString(matches[i])) === -1) {
-        // Add matches without an exception
+      // Add matches without an exception
         remainingMatches.push(matches[i])
       }
     }
     return remainingMatches
   }
 }
+
+/* ---------------------------------------------------------------------+
+|  Date Related Functions                                               |
++--------------------------------------------------------------------- */
 
 // Determine how many days in a given month/year
 function DaysInMonth (month, year) {
@@ -210,7 +259,7 @@ function DaysInMonth (month, year) {
 
 // Return a JavaScript date as a string: MM/DD/YYYY format (zero padded)
 function DateToString (dateObject) {
-  return (dateObject && dateObject.getTime() > 0 && typeof dateObject === 'object')
+  return (dateObject && dateObject.getTime() > 0)
     ? dateObject.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
     : ''
 }

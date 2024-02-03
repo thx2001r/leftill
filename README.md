@@ -17,7 +17,7 @@ A simple way to track how much money is left until your next paycheck.
 ## Recurrence configuration data:
 The structure of the recurrence configuration data is:
 
-	configurationID: {			(configuration IDs are unique, integer keys)
+	configurationID: {			(configuration IDs are unique keys)
 		amount: decimal,		(amount of each recurrence)
 		description: string,		(description of the recurring transaction)
 		type: string,			("Income" or "Expense")

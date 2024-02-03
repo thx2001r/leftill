@@ -17,15 +17,15 @@ A simple way to track how much money is left until your next paycheck.
 ## Recurrence configuration data:
 The structure of the recurrence configuration data is:
 
-	configurationID: {			(configuration IDs are unique keys)
-		amount: decimal,		(amount of each recurrence)
-		description: string,		(description of the recurring transaction)
-		type: string,			("Income" or "Expense")
-		automatic: boolean,		(Automated income or payment)
-		recurrence: string,		(this is the recurrence parser to use)
-		recurrenceStart: string,	(short date format: "MM/DD/YYYY" zero padded MM and DD)
-		weeksRecurrence: integer,	(optional, for weekly parser: default is every 1 week)
-		exceptions: array		(optional array of short date strings to exclude from matches)
+	configurationID: {              (configuration IDs are unique keys)
+	    amount: decimal,            (amount of each recurrence)
+	    description: string,        (description of the recurring transaction)
+	    type: string,               ("Income" or "Expense")
+	    automatic: boolean,         (Automated income or payment)
+	    recurrence: string,         (this is the recurrence parser to use)
+	    recurrenceStart: string,    (short date format: "MM/DD/YYYY" zero padded MM and DD)
+	    weeksRecurrence: integer,   (optional, for weekly parser: default is every 1 week)
+	    exceptions: array           (optional array of short date strings to exclude from matches)
 	}
 
 ## Prerequisites:

@@ -5,10 +5,8 @@
 // Parse each config item for matches within a date range
 function ConfigMatches (start, end, config) {
   /*
-    Note on string date formats: JavaScript Short Dates (MM/DD/YYYY -- zero padded)
-    convert to midnight on the date in the current time zone.  Other string date
-    formats, including ISO 8601, add a time offset from GMT when converted to date
-    objects and should be avoided.
+    Only JavaScript Short Dates (MM/DD/YYYY -- zero padded) are permitted as
+    inputs to this function for the most reliable international date handling.
   */
   const configMatches = {}
   const rangeStart = ValidateShortDate(start) ? new Date(start) : false

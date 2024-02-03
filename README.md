@@ -24,7 +24,8 @@ The structure of the recurrence configuration data is:
 		automatic: boolean,		(Automated income or payment)
 		recurrence: string,		(this is the recurrence parser to use)
 		recurrenceStart: string,	(short date format: "MM/DD/YYYY" zero padded MM and DD)
-		weeksRecurrence: integer	(optional, for weekly parser: default is every 1 week)
+		weeksRecurrence: integer,	(optional, for weekly parser: default is every 1 week)
+		exceptions: array		(optional array of short dates to exclude from matches)
 	}
 
 ## Prerequisites:

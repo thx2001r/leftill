@@ -58,7 +58,7 @@ function ConfigMatches (start, end, config) {
 
         if (configMatch.length > 0) {
           // Parse any exceptions defined in the configuration
-          if (config[keys[i]].exceptions) configMatch = ExceptionsParser(configMatch, config[keys[i]].exceptions)
+          if (config[keys[i]].exceptions && Array.isArray(config[keys[i]].exceptions)) configMatch = ExceptionsParser(configMatch, config[keys[i]].exceptions)
 
           // Add any remaining matching dates for the configuration
           if (configMatch.length > 0) configMatches[keys[i]] = configMatch

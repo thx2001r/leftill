@@ -215,8 +215,28 @@ describe('Exceptions to Recurrence', () => {
     expect(recurrence.ConfigMatches('04/30/2020', '05/02/2020', Exceptions)).toEqual({})
   })
 
-  it('is a range containing exceptions to recurrence', () => {
+  it('is a range excluding exceptions to recurrence', () => {
     expect(recurrence.ConfigMatches('04/30/2019', '05/02/2023', Exceptions)).toEqual({ 1: [new Date('05/01/2019'), new Date('05/01/2021'), new Date('05/01/2023')] })
+  })
+
+  const ExceptionsBroken = {
+    1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', automatic: false, recurrenceStart: '05/01/2019', exceptions: [new Date('05/01/2020').getTime(), '05/01/2022', 'bob', [], 123, true, {}, { a: true }] }
+  }
+
+  it('is a range whose partially invalid exceptions do not wipe out matches', () => {
+    expect(recurrence.ConfigMatches('04/30/2020', '05/02/2020', ExceptionsBroken)).toEqual({ 1: [new Date('05/01/2020')] })
+  })
+
+  it('is a range containing partially invalid exceptions to recurrence', () => {
+    expect(recurrence.ConfigMatches('04/30/2019', '05/02/2023', ExceptionsBroken)).toEqual({ 1: [new Date('05/01/2019'), new Date('05/01/2020'), new Date('05/01/2021'), new Date('05/01/2023')] })
+  })
+
+  const ExceptionsInvalid = {
+    1: { amount: 15, description: 'Tag fee', type: 'Expense', recurrence: 'Yearly', automatic: false, recurrenceStart: '05/01/2019', exceptions: {} }
+  }
+
+  it('is a range whose invalid exceptions do not wipe out matches', () => {
+    expect(recurrence.ConfigMatches('04/30/2019', '05/02/2023', ExceptionsInvalid)).toEqual({ 1: [new Date('05/01/2019'), new Date('05/01/2020'), new Date('05/01/2021'), new Date('05/01/2022'), new Date('05/01/2023')] })
   })
 })
 

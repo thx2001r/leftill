@@ -5,7 +5,7 @@
 // Perform linear regression
 function LinearRegression (data, targetX, targetY) {
   /*
-    data: array of objects each containing x,y numeric coordinates
+       data: array of objects each containing x,y numeric coordinates
     targetX: (optional) number used to calculate y,targetX coordinate
     targetY: (optional) number used to calculate x,targetY coordinate
   */

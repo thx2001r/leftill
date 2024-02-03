@@ -5,7 +5,11 @@
 // Parse each config item for matches within a date range
 function ConfigMatches (start, end, config) {
   /*
-    Only JavaScript Short Dates (MM/DD/YYYY -- zero padded) are permitted as
+     start: of matching date range (JS short date format: "MM/DD/YYYY" zero padded)
+       end: of matching date range (JS short date format: "MM/DD/YYYY" zero padded)
+    config: object with configuration of recurring income/expenses to match
+
+    NOTE: Only JavaScript Short Dates (MM/DD/YYYY -- zero padded) are permitted as
     inputs to this function for the most reliable international date handling.
   */
   const configMatches = {}
@@ -239,6 +243,10 @@ function ConfigMatches (start, end, config) {
 
 // Determine how many days in a given month/year
 function DaysInMonth (month, year) {
+  /*
+    month: integer of the month number 0-11
+     year: integer of the year
+  */
   const daysInMonth = [
     31,
     year % 4 === 0 && !(year % 100 === 0 && year % 400 !== 0) ? 29 : 28,
@@ -259,8 +267,11 @@ function DaysInMonth (month, year) {
     : 0
 }
 
-// Return a JavaScript date as a short date string: MM/DD/YYYY format (zero padded)
+// Return a JavaScript Date object as a short date string: MM/DD/YYYY format (zero padded)
 function DateToString (dateObject) {
+  /*
+    dateObject: a JavaScript Date object
+  */
   return (dateObject && dateObject.getTime() > 0)
     ? dateObject.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
     : ''

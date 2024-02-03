@@ -115,8 +115,7 @@ function ConfigMatches (start, end, config) {
       parseInt(checked[2]) <= DaysInMonth(
         parseInt(checked[1]) - 1,
         parseInt(checked[3])
-      ) &&
-      new Date(shortDate).getTime() > 0
+      )
   }
 
   /* -------------------------------------------------------------------+
@@ -272,7 +271,7 @@ function DateToString (dateObject) {
   /*
     dateObject: a JavaScript Date object
   */
-  return (dateObject && dateObject.getTime() > 0)
+  return dateObject
     ? dateObject.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
     : ''
 }

@@ -30,39 +30,38 @@ function LinearRegression (data, targetX, targetY) {
     response.y = canCalculateY ? slope * targetX + yIntercept : null
     response.x = canCalculateX ? (targetY - yIntercept) / slope : null
   }
-
   return response
-}
 
-// Validate input data set for linear regression
-function ValidateData (data) {
-  return Array.isArray(data) &&
+  // Validate input data set for linear regression
+  function ValidateData (data) {
+    return Array.isArray(data) &&
       data.length > 0 &&
       data.every(a =>
         typeof a.x === 'number' &&
         typeof a.y === 'number'
       )
-}
-
-// Prepare data series to sum it for regression
-function PrepareDataToSum (a) {
-  return {
-    x: a.x,
-    y: a.y,
-    xy: a.x * a.y,
-    xSquared: a.x ** 2,
-    ySquared: a.y ** 2
   }
-}
 
-// Calculate sums for the data series for regression
-function SumData (a, b) {
-  return {
-    x: a.x + b.x,
-    y: a.y + b.y,
-    xy: a.xy + b.xy,
-    xSquared: a.xSquared + b.xSquared,
-    ySquared: a.ySquared + b.ySquared
+  // Prepare data series to sum it for regression
+  function PrepareDataToSum (a) {
+    return {
+      x: a.x,
+      y: a.y,
+      xy: a.x * a.y,
+      xSquared: a.x ** 2,
+      ySquared: a.y ** 2
+    }
+  }
+
+  // Calculate sums for the data series for regression
+  function SumData (a, b) {
+    return {
+      x: a.x + b.x,
+      y: a.y + b.y,
+      xy: a.xy + b.xy,
+      xSquared: a.xSquared + b.xSquared,
+      ySquared: a.ySquared + b.ySquared
+    }
   }
 }
 

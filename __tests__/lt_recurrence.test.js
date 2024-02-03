@@ -5,13 +5,6 @@ describe('One-Time Non-Recurring', () => {
   const Once = {
     1: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: '04/04/2019' }
   }
-  const OnceBroken = {
-    1: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: 'Something Broken!' }
-  }
-
-  it('is an invalid configuration', () => {
-    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', OnceBroken)).toEqual({})
-  })
 
   it('is a range before start date', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '04/03/2019', Once)).toEqual({})
@@ -40,24 +33,20 @@ describe('One-Time Non-Recurring', () => {
   it('is a range beginning and ending on a start date', () => {
     expect(recurrence.ConfigMatches('04/04/2019', '04/04/2019', Once)).toEqual({ 1: [new Date('04/04/2019')] })
   })
+
+  const OnceBroken = {
+    1: { amount: 100, description: 'Pre-school deposit', type: 'Expense', automatic: false, recurrence: 'Once', recurrenceStart: 'Something Broken!' }
+  }
+
+  it('is an invalid configuration', () => {
+    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', OnceBroken)).toEqual({})
+  })
 })
 
 describe('Yearly Recurrence', () => {
   const Yearly = {
     1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: '03/26/2019' }
   }
-  const YearlyLeapYears = {
-    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: '02/29/2020' }
-  }
-
-  const YearlyBroken = {
-    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: 'Something Broken!' }
-  }
-
-  it('is an invalid configuration', () => {
-    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', YearlyBroken)).toEqual({})
-  })
-
   it('is a range before start date', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '03/25/2019', Yearly)).toEqual({})
   })
@@ -90,6 +79,18 @@ describe('Yearly Recurrence', () => {
     expect(recurrence.ConfigMatches('01/01/2018', '12/31/2020', Yearly)).toEqual({ 1: [new Date('03/26/2019'), new Date('03/26/2020')] })
   })
 
+  const YearlyBroken = {
+    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: 'Something Broken!' }
+  }
+
+  it('is an invalid configuration', () => {
+    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', YearlyBroken)).toEqual({})
+  })
+
+  const YearlyLeapYears = {
+    1: { amount: 119, description: 'Amazon Prime Yearly Membership', type: 'Expense', automatic: true, recurrence: 'Yearly', recurrenceStart: '02/29/2020' }
+  }
+
   it('is a range spanning multiple leap years', () => {
     expect(recurrence.ConfigMatches('03/01/2020', '03/01/2028', YearlyLeapYears)).toEqual({ 1: [new Date('02/29/2024'), new Date('02/29/2028')] })
   })
@@ -103,17 +104,6 @@ describe('Monthly Recurrence', () => {
   const Monthly = {
     1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: '04/01/2019' }
   }
-  const MonthlyBroken = {
-    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: 'Something Broken!' }
-  }
-  const MonthlyEdgeDay = {
-    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: '03/31/2019' }
-  }
-
-  it('is an invalid configuration', () => {
-    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', MonthlyBroken)).toEqual({})
-  })
-
   it('is a range before start date', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '03/25/2019', Monthly)).toEqual({})
   })
@@ -146,6 +136,18 @@ describe('Monthly Recurrence', () => {
     expect(recurrence.ConfigMatches('01/01/2019', '05/02/2019', Monthly)).toEqual({ 1: [new Date('04/01/2019'), new Date('05/01/2019')] })
   })
 
+  const MonthlyBroken = {
+    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: 'Something Broken!' }
+  }
+
+  it('is an invalid configuration', () => {
+    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', MonthlyBroken)).toEqual({})
+  })
+
+  const MonthlyEdgeDay = {
+    1: { amount: 3000.01, description: 'Paycheck', type: 'Income', recurrence: 'Monthly', automatic: true, recurrenceStart: '03/31/2019' }
+  }
+
   it('is a recurrence date greater than the last day of some result months', () => {
     expect(recurrence.ConfigMatches('03/01/2019', '05/01/2019', MonthlyEdgeDay)).toEqual({ 1: [new Date('03/31/2019'), new Date('04/30/2019')] })
   })
@@ -155,14 +157,6 @@ describe('Bi-weekly Recurrence', () => {
   const BiWeekly = {
     1: { amount: 500, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Weekly', weeksRecurrence: 2, recurrenceStart: '04/04/2019' }
   }
-  const BiWeeklyBroken = {
-    1: { amount: 500, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Weekly', weeksRecurrence: 'a', recurrenceStart: 'Something Broken!' }
-  }
-
-  it('is an invalid configuration', () => {
-    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', BiWeeklyBroken)).toEqual({})
-  })
-
   it('is a range before start date', () => {
     expect(recurrence.ConfigMatches('03/21/2019', '04/03/2019', BiWeekly)).toEqual({})
   })
@@ -201,6 +195,14 @@ describe('Bi-weekly Recurrence', () => {
 
   it('is a range spanning a future recurrence', () => {
     expect(recurrence.ConfigMatches('06/21/2019', '06/30/2019', BiWeekly)).toEqual({ 1: [new Date('06/27/2019')] })
+  })
+
+  const BiWeeklyBroken = {
+    1: { amount: 500, description: 'Paycheck', type: 'Income', automatic: true, recurrence: 'Weekly', weeksRecurrence: 'a', recurrenceStart: 'Something Broken!' }
+  }
+
+  it('is an invalid configuration', () => {
+    expect(recurrence.ConfigMatches('03/21/2019', '04/04/2019', BiWeeklyBroken)).toEqual({})
   })
 })
 

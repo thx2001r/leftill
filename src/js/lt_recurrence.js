@@ -75,42 +75,46 @@ function ConfigMatches (start, end, config) {
   // Validate configuration for recurrence matching
   function ValidateConfig (config) {
     return config &&
-    typeof config.amount === 'number' &&
-    typeof config.description === 'string' &&
-    typeof config.type === 'string' &&
-    config.type.match(/^(Income|Expense)$/) &&
-    typeof config.automatic === 'boolean' &&
-    typeof config.recurrence === 'string' &&
-    config.recurrence.match(/^(Once|Yearly|Monthly|Weekly)$/) &&
-    typeof config.recurrenceStart === 'string' &&
-    ValidateShortDate(config.recurrenceStart) &&
-    (
-      !config.weeksRecurrence ||
-      Number.isInteger(config.weeksRecurrence)
-    ) &&
-    (
-      !config.exceptions ||
+      typeof config.amount === 'number' &&
+      typeof config.description === 'string' &&
+      typeof config.type === 'string' &&
+      config.type.match(/^(Income|Expense)$/) &&
+      typeof config.automatic === 'boolean' &&
+      typeof config.recurrence === 'string' &&
+      config.recurrence.match(/^(Once|Yearly|Monthly|Weekly)$/) &&
+      typeof config.recurrenceStart === 'string' &&
+      ValidateShortDate(config.recurrenceStart) &&
       (
-        Array.isArray(config.exceptions) &&
-        config.exceptions.length > 0 &&
-        config.exceptions.every(a =>
-          typeof a === 'string' &&
-          ValidateShortDate(a)
+        !config.weeksRecurrence ||
+        Number.isInteger(config.weeksRecurrence)
+      ) &&
+      (
+        !config.exceptions ||
+        (
+          Array.isArray(config.exceptions) &&
+          config.exceptions.length > 0 &&
+          config.exceptions.every(a =>
+            typeof a === 'string' &&
+            ValidateShortDate(a)
+          )
         )
       )
-    )
   }
 
   // Validate short date string format MM/DD/YYYY
   function ValidateShortDate (shortDate) {
-    const checked = shortDate ? shortDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/) : false
+    const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/
+    const checked = shortDate ? shortDate.match(dateRegex) : false
     return checked &&
-    typeof shortDate === 'string' &&
-    parseInt(checked[1]) > 0 &&
-    parseInt(checked[1]) <= 12 &&
-    parseInt(checked[2]) > 0 &&
-    parseInt(checked[2]) <= DaysInMonth(parseInt(checked[1]) - 1, parseInt(checked[3])) &&
-    new Date(shortDate).getTime() > 0
+      typeof shortDate === 'string' &&
+      parseInt(checked[1]) > 0 &&
+      parseInt(checked[1]) <= 12 &&
+      parseInt(checked[2]) > 0 &&
+      parseInt(checked[2]) <= DaysInMonth(
+        parseInt(checked[1]) - 1,
+        parseInt(checked[3])
+      ) &&
+      new Date(shortDate).getTime() > 0
   }
 
   /* -------------------------------------------------------------------+
@@ -257,7 +261,7 @@ function DaysInMonth (month, year) {
     : 0
 }
 
-// Return a JavaScript date as a string: MM/DD/YYYY format (zero padded)
+// Return a JavaScript date as a short date string: MM/DD/YYYY format (zero padded)
 function DateToString (dateObject) {
   return (dateObject && dateObject.getTime() > 0)
     ? dateObject.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })

@@ -13,8 +13,8 @@ function ConfigMatches (start, end, config) {
     inputs to this function for the most reliable international date handling.
   */
   const configMatches = {}
-  const rangeStart = ValidateShortDate(start) ? new Date(start) : false
-  const rangeEnd = ValidateShortDate(end) ? new Date(end) : false
+  const rangeStart = ValidateShortDate(start) ? new Date(start) : null
+  const rangeEnd = ValidateShortDate(end) ? new Date(end) : null
   const isValidRange = rangeStart && rangeEnd && rangeStart <= rangeEnd
 
   if (isValidRange && typeof config === 'object') {
@@ -105,16 +105,13 @@ function ConfigMatches (start, end, config) {
 
   // Validate short date string format MM/DD/YYYY
   function ValidateShortDate (shortDate) {
-    const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/
-    const checked = shortDate ? shortDate.match(dateRegex) : false
-    return checked &&
+    const shortDateRegex = /^(1[0-2]|0[1-9])\/(3[01]|[12][0-9]|0[1-9])\/(\d{4})$/
+    const shortDateMatched = shortDate ? shortDate.match(shortDateRegex) : false
+    return shortDateMatched &&
       typeof shortDate === 'string' &&
-      parseInt(checked[1]) > 0 &&
-      parseInt(checked[1]) <= 12 &&
-      parseInt(checked[2]) > 0 &&
-      parseInt(checked[2]) <= DaysInMonth(
-        parseInt(checked[1]) - 1,
-        parseInt(checked[3])
+      parseInt(shortDateMatched[2]) <= DaysInMonth(
+        parseInt(shortDateMatched[1]) - 1,
+        parseInt(shortDateMatched[3])
       )
   }
 

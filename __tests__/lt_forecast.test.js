@@ -1,31 +1,19 @@
 import { expect, describe, it } from 'vitest'
 import * as forecast from '../src/js/lt_forecast'
 
-describe('Linear Regression', () => {
+describe('Calculate Linear Regression Model', () => {
+  it('is a function call with no parameters', () => {
+    expect(forecast.CalculateLinearModel()).toEqual({})
+  })
+
   const data = [
     { x: 1, y: 100 },
     { x: 2, y: 90 },
     { x: 4, y: 70 }
   ]
 
-  it('is a forecast of y with a targetX value provided', () => {
-    expect(forecast.LinearRegression(data, 3)).toEqual({ r: -1, rSquared: 1, slope: -10, x: null, y: 80, yIntercept: 110 })
-  })
-
-  it('is a forecast of x with a targetY value provided', () => {
-    expect(forecast.LinearRegression(data, false, 80)).toEqual({ r: -1, rSquared: 1, slope: -10, x: 3, y: null, yIntercept: 110 })
-  })
-
-  it('is a forecast of x and y with a targetX AND a 0 targetY passed', () => {
-    expect(forecast.LinearRegression(data, 3, 0)).toEqual({ r: -1, rSquared: 1, slope: -10, x: 11, y: 80, yIntercept: 110 })
-  })
-
-  it('is a forecast of x and y with a 0 targetX AND a targetY passed', () => {
-    expect(forecast.LinearRegression(data, 0, 80)).toEqual({ r: -1, rSquared: 1, slope: -10, x: 3, y: 110, yIntercept: 110 })
-  })
-
-  it('is a forecast with only data passed to it', () => {
-    expect(forecast.LinearRegression(data)).toEqual({ r: -1, rSquared: 1, slope: -10, x: null, y: null, yIntercept: 110 })
+  it('is a model with a slope', () => {
+    expect(forecast.CalculateLinearModel(data)).toEqual({ slope: -10, yIntercept: 110, r: -1 })
   })
 
   const dataNoSlope = [
@@ -34,20 +22,8 @@ describe('Linear Regression', () => {
     { x: 4, y: 100 }
   ]
 
-  it('is a forecast with only data passed to it and a slope of 0', () => {
-    expect(forecast.LinearRegression(dataNoSlope)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
-  })
-
-  it('is a forecast of y with a targetX value provided that can\'t be calculated due to a slope of 0', () => {
-    expect(forecast.LinearRegression(dataNoSlope, 3)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
-  })
-
-  it('is a forecast of x with a targetY value provided that can\'t be calculated due to a slope of 0', () => {
-    expect(forecast.LinearRegression(dataNoSlope, false, 80)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
-  })
-
-  it('is a forecast of x and y with a targetX AND a targetY passed that can\'t be calculated due to a slope of 0', () => {
-    expect(forecast.LinearRegression(dataNoSlope, 3, 80)).toEqual({ r: null, rSquared: null, slope: 0, x: null, y: null, yIntercept: 100 })
+  it('is a model with no slope', () => {
+    expect(forecast.CalculateLinearModel(dataNoSlope)).toEqual({ slope: 0, yIntercept: 100, r: NaN })
   })
 
   const badData = [
@@ -57,7 +33,7 @@ describe('Linear Regression', () => {
   ]
 
   it('is an invalid set of values provided', () => {
-    expect(forecast.LinearRegression(badData, 3, 80)).toEqual({})
+    expect(forecast.CalculateLinearModel(badData)).toEqual({})
   })
 
   const invalidKeys = [
@@ -67,38 +43,126 @@ describe('Linear Regression', () => {
   ]
 
   it('is an invalid set of object keys provided', () => {
-    expect(forecast.LinearRegression(invalidKeys, 3, 80)).toEqual({})
+    expect(forecast.CalculateLinearModel(invalidKeys)).toEqual({})
   })
 
   it('is an invalid array provided, but not of objects', () => {
-    expect(forecast.LinearRegression([1, 'string', 3])).toEqual({})
+    expect(forecast.CalculateLinearModel([1, 'string', 3])).toEqual({})
   })
 
   it('is an invalid object provided, not an array of objects', () => {
-    expect(forecast.LinearRegression({ a: 1, b: 2 })).toEqual({})
+    expect(forecast.CalculateLinearModel({ a: 1, b: 2 })).toEqual({})
   })
 
   it('is an invalid string provided, not an array of objects', () => {
-    expect(forecast.LinearRegression('text')).toEqual({})
-  })
-
-  it('is a functional call with no parameters', () => {
-    expect(forecast.LinearRegression()).toEqual({})
+    expect(forecast.CalculateLinearModel('text')).toEqual({})
   })
 
   it('is an empty array provided, not an array of objects', () => {
-    expect(forecast.LinearRegression([])).toEqual({})
+    expect(forecast.CalculateLinearModel([])).toEqual({})
   })
 
   it('is an invalid empty object provided, not an array of objects', () => {
-    expect(forecast.LinearRegression({})).toEqual({})
+    expect(forecast.CalculateLinearModel({})).toEqual({})
   })
 
   it('is an empty object provided, not an array of objects', () => {
-    expect(forecast.LinearRegression({})).toEqual({})
+    expect(forecast.CalculateLinearModel({})).toEqual({})
   })
 
   it('is an empty array with an empty object provided, not an array of objects', () => {
-    expect(forecast.LinearRegression([{}])).toEqual({})
+    expect(forecast.CalculateLinearModel([{}])).toEqual({})
+  })
+})
+
+describe('Forecast X With A Linear Regression Model', () => {
+  it('is a function call with no parameters', () => {
+    expect(forecast.CalculateX()).toEqual(NaN)
+  })
+
+  it('is a forecast of X with a slope', () => {
+    expect(forecast.CalculateX(-10, 110, 80)).toEqual(3)
+  })
+
+  it('is a forecast of X with no slope', () => {
+    expect(forecast.CalculateX(0, 110, 80)).toEqual(NaN)
+  })
+
+  it('is a forecast of X with an invalid slope', () => {
+    expect(forecast.CalculateX(NaN, 110, 80)).toEqual(NaN)
+  })
+
+  it('is a forecast of X with an invalid slope data type', () => {
+    expect(forecast.CalculateX('a', 110, 80)).toEqual(NaN)
+  })
+
+  it('is a forecast of X with an invalid yIntercept', () => {
+    expect(forecast.CalculateX(-10, NaN, 80)).toEqual(NaN)
+  })
+
+  it('is a forecast of X with an invalid yIntercept data type', () => {
+    expect(forecast.CalculateX(-10, '110', 80)).toEqual(NaN)
+  })
+
+  it('is a forecast of X with an invalid y coordinate', () => {
+    expect(forecast.CalculateX(-10, 110, NaN)).toEqual(NaN)
+  })
+
+  it('is a forecast of X with an invalid y coordinate data type', () => {
+    expect(forecast.CalculateX(-10, 110, '80')).toEqual(NaN)
+  })
+
+  it('is a forecast of X missing an y coordinate', () => {
+    expect(forecast.CalculateX(-10, 110)).toEqual(NaN)
+  })
+
+  it('is a forecast of X missing a yIntercept and an y coordinate', () => {
+    expect(forecast.CalculateX(-10)).toEqual(NaN)
+  })
+})
+
+describe('Forecast Y With A Linear Regression Model', () => {
+  it('is a function call with no parameters', () => {
+    expect(forecast.CalculateY()).toEqual(NaN)
+  })
+
+  it('is a forecast of Y with a slope', () => {
+    expect(forecast.CalculateY(-10, 110, 3)).toEqual(80)
+  })
+
+  it('is a forecast of Y with no slope', () => {
+    expect(forecast.CalculateY(0, 110, 3)).toEqual(NaN)
+  })
+
+  it('is a forecast of Y with an invalid slope', () => {
+    expect(forecast.CalculateY(NaN, 110, 3)).toEqual(NaN)
+  })
+
+  it('is a forecast of Y with an invalid slope data type', () => {
+    expect(forecast.CalculateY('a', 110, 3)).toEqual(NaN)
+  })
+
+  it('is a forecast of Y with an invalid yIntercept', () => {
+    expect(forecast.CalculateY(-10, NaN, 3)).toEqual(NaN)
+  })
+
+  it('is a forecast of Y with an invalid yIntercept data type', () => {
+    expect(forecast.CalculateY(-10, '110', 3)).toEqual(NaN)
+  })
+
+  it('is a forecast of Y with an invalid x coordinate', () => {
+    expect(forecast.CalculateY(-10, 110, NaN)).toEqual(NaN)
+  })
+
+  it('is a forecast of Y with an invalid x coordinate data type', () => {
+    expect(forecast.CalculateY(-10, 110, '3')).toEqual(NaN)
+  })
+
+  it('is a forecast of Y missing an x coordinate', () => {
+    expect(forecast.CalculateY(-10, 110)).toEqual(NaN)
+  })
+
+  it('is a forecast of Y missing a yIntercept and an x coordinate', () => {
+    expect(forecast.CalculateY(-10)).toEqual(NaN)
   })
 })

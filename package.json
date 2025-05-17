@@ -4,8 +4,8 @@
 	"version": "0.1.1",
 	"type": "module",
 	"scripts": {
-		"watch": "vitest --reporter=basic",
-		"test": "eslint src/js/* && vitest run --reporter=basic",
+		"watch": "vitest",
+		"test": "eslint src/js/* && vitest run",
 		"clean": "rm -rf dist",
 		"minify": "mkdir -p dist/js && uglifyjs src/js/*.*js --config-file minify-options.json > dist/js/leftill.min.js",
 		"build": "npm run test && npm run clean && npm run minify"
@@ -17,7 +17,7 @@
 		"eslint-plugin-node": "^11.1.0",
 		"eslint-plugin-promise": "^5.1.0",
 		"uglify-js": "^3.14.2",
-		"vitest": "^0.34.1"
+		"vitest": "^3.1.3"
 	},
 	"repository": {
 		"type": "git",

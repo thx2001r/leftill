@@ -1,9 +1,10 @@
 {
-	"eslint.validate": [
-		"javascript"
-	],
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
 	},
+	"editor.tabSize": 2,
+	"eslint.validate": [
+		"javascript"
+	],
 	"js/ts.implicitProjectConfig.checkJs": true
 }

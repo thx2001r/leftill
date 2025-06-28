@@ -1,8 +1,6 @@
-# Node.js, dev, and Dependency directories
+# Dist and Node Modules directories
 dist/
 node_modules/
-package-lock.json
-yarn.lock
 
 ### macOS - https://www.gitignore.io/api/macos ###
 .DS_Store

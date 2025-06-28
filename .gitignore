@@ -1,11 +1,12 @@
 # Dist and Node Modules directories
-dist/
-node_modules/
+dist
+node_modules
 
 ### macOS - https://www.gitignore.io/api/macos ###
 .DS_Store
 .AppleDouble
 .LSOverride
+Icon
 ._*
 .DocumentRevisions-V100
 .fseventsd
@@ -19,6 +20,7 @@ node_modules/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.icloud
 
 ### Windows - https://www.gitignore.io/api/windows ###
 Thumbs.db

@@ -1,32 +1,32 @@
 {
-	"name": "leftill",
-	"description": "A simple way to track how much money is left until your next paycheck",
-	"version": "0.1.1",
-	"type": "module",
-	"scripts": {
-		"watch": "vitest",
-		"test": "eslint src/js/* && vitest run",
-		"clean": "rm -rf dist",
-		"minify": "mkdir -p dist/js && uglifyjs src/js/*.*js --config-file minify-options.json > dist/js/leftill.min.js",
-		"build": "npm run test && npm run clean && npm run minify"
-	},
-	"devDependencies": {
-		"@eslint/js": "^9.30.0",
-		"eslint": "^9.30.0",
-		"globals": "^16.2.0",
-		"neostandard": "^0.12.1",
-		"uglify-js": "^3.19.3",
-		"vitest": "^3.2.4"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/thx2001r/leftill.git"
-	},
-	"bugs": {
-		"url": "https://github.com/thx2001r/leftill/issues"
-	},
-	"author": {
-		"name": "Joseph Reiter"
-	},
-	"license": "MIT"
+  "name": "leftill",
+  "description": "A simple way to track how much money is left until your next paycheck",
+  "version": "0.1.1",
+  "type": "module",
+  "scripts": {
+    "watch": "vitest",
+    "test": "eslint src/js/* && vitest run",
+    "clean": "rm -rf dist",
+    "minify": "mkdir -p dist/js && uglifyjs src/js/*.*js --config-file minify-options.json > dist/js/leftill.min.js",
+    "build": "npm run test && npm run clean && npm run minify"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "eslint": "^9.30.0",
+    "globals": "^16.2.0",
+    "neostandard": "^0.12.1",
+    "uglify-js": "^3.19.3",
+    "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thx2001r/leftill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thx2001r/leftill/issues"
+  },
+  "author": {
+    "name": "Joseph Reiter"
+  },
+  "license": "MIT"
 }

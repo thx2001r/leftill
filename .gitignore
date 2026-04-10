@@ -1,6 +1,7 @@
 # Dist and Node Modules directories
 dist
 node_modules
+package-lock.json
 
 ### macOS - https://www.gitignore.io/api/macos ###
 .DS_Store

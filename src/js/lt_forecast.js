@@ -2,6 +2,10 @@
 |  Leftill forecasting module                                           |
 +--------------------------------------------------------------------- */
 
+/* ---------------------------------------------------------------------+
+|  Type definitions                                                     |
++--------------------------------------------------------------------- */
+
 /**
  * @typedef {Object} RegressionInputData
  * @property {number} x - The x coordinate in a pair
@@ -12,8 +16,12 @@
  * @typedef {Object} LinearRegressionModel
  * @property {number} slope - The rate of change of y per unit of x
  * @property {number} yIntercept - The value of y at x = 0
- * @property {number} r - The correlation coefficient
+ * @property {number|NaN} r - The correlation coefficient
  */
+
+/* ---------------------------------------------------------------------+
+|  Linear regression functions                                          |
++--------------------------------------------------------------------- */
 
 /**
  * Performs linear regression calculation

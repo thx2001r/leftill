@@ -2,10 +2,17 @@
 |  Leftill forecasting module                                           |
 +--------------------------------------------------------------------- */
 
+/**
+ * @typedef {Object} RegressionInputData
+ * @property {number} x - The x coordinate in a pair
+ * @property {number} y - The y coordinate in a pair
+ */
+
+/**
+ * Orchestrates linear regression calculation
+ * @param {RegressionInputData[]} data - array of objects each containing x,y numeric coordinates
+ */
 function CalculateLinearModel (data) {
-  /*
-    data: array of objects each containing x,y numeric coordinates
-  */
   const model = {}
   const isValidData = Array.isArray(data) &&
     data.length > 0 &&
@@ -24,6 +31,7 @@ function CalculateLinearModel (data) {
   }
   return model
 
+  /** @param {RegressionInputData} a */
   function PrepareDataToSum (a) {
     return {
       x: a.x,
@@ -34,6 +42,10 @@ function CalculateLinearModel (data) {
     }
   }
 
+  /**
+   * @param {{ x: number; y: number; xy: number; xSquared: number; ySquared: number; }} a
+   * @param {{ x: number; y: number; xy: number; xSquared: number; ySquared: number; }} b
+   */
   function SumData (a, b) {
     return {
       x: a.x + b.x,
@@ -45,12 +57,12 @@ function CalculateLinearModel (data) {
   }
 }
 
+/**
+ * @param {number} slope - number from a linear regression model, must be non-zero to calculate x
+ * @param {number} yIntercept - number from a linear regression model
+ * @param {number} y - numeric coordinate to calculate x numeric coordinate
+ */
 function CalculateX (slope, yIntercept, y) {
-  /*
-         slope: number from a linear regression model, must be non-zero to calculate x
-    yIntercept: number from a linear regression model
-             y: numeric coordinate to calculate x numeric coordinate
-  */
   const canCalculateX = typeof slope === 'number' &&
     typeof yIntercept === 'number' &&
     typeof y === 'number' &&
@@ -59,12 +71,12 @@ function CalculateX (slope, yIntercept, y) {
   return canCalculateX ? (y - yIntercept) / slope : NaN
 }
 
+/**
+ * @param {number} slope - number from a linear regression model, must be non-zero to calculate y
+ * @param {number} yIntercept - number from a linear regression model
+ * @param {number} x - numeric coordinate to calculate y numeric coordinate
+ */
 function CalculateY (slope, yIntercept, x) {
-  /*
-         slope: number from a linear regression model, must be non-zero to calculate y
-    yIntercept: number from a linear regression model
-             x: numeric coordinate to calculate y numeric coordinate
-  */
   const canCalculateY = typeof slope === 'number' &&
     typeof yIntercept === 'number' &&
     typeof x === 'number' &&

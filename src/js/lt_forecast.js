@@ -9,8 +9,16 @@
  */
 
 /**
- * Orchestrates linear regression calculation
+ * @typedef {Object} LinearRegressionModel
+ * @property {number} slope - The rate of change of y per unit of x
+ * @property {number} yIntercept - The value of y at x = 0
+ * @property {number} r - The correlation coefficient
+ */
+
+/**
+ * Performs linear regression calculation
  * @param {RegressionInputData[]} data - array of objects each containing x,y numeric coordinates
+ * @returns {LinearRegressionModel|{}}
  */
 function CalculateLinearModel (data) {
   const model = {}
@@ -31,7 +39,10 @@ function CalculateLinearModel (data) {
   }
   return model
 
-  /** @param {RegressionInputData} a */
+  /**
+   * @param {RegressionInputData} a
+   * @returns {{ x: number; y: number; xy: number; xSquared: number; ySquared: number; }}
+   */
   function PrepareDataToSum (a) {
     return {
       x: a.x,
@@ -45,6 +56,7 @@ function CalculateLinearModel (data) {
   /**
    * @param {{ x: number; y: number; xy: number; xSquared: number; ySquared: number; }} a
    * @param {{ x: number; y: number; xy: number; xSquared: number; ySquared: number; }} b
+   * @returns {{ x: number; y: number; xy: number; xSquared: number; ySquared: number; }}
    */
   function SumData (a, b) {
     return {
@@ -61,6 +73,7 @@ function CalculateLinearModel (data) {
  * @param {number} slope - number from a linear regression model, must be non-zero to calculate x
  * @param {number} yIntercept - number from a linear regression model
  * @param {number} y - numeric coordinate to calculate x numeric coordinate
+ * @returns {number|NaN} - x at y coordinate
  */
 function CalculateX (slope, yIntercept, y) {
   const canCalculateX = typeof slope === 'number' &&
@@ -75,6 +88,7 @@ function CalculateX (slope, yIntercept, y) {
  * @param {number} slope - number from a linear regression model, must be non-zero to calculate y
  * @param {number} yIntercept - number from a linear regression model
  * @param {number} x - numeric coordinate to calculate y numeric coordinate
+ * @returns {number|NaN} - y at x coordinate
  */
 function CalculateY (slope, yIntercept, x) {
   const canCalculateY = typeof slope === 'number' &&
